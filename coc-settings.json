@@ -1,0 +1,27 @@
+{
+  "languageserver": {
+    "pylance": {
+      "enable": true,
+      "filetypes": [
+        "python"
+      ],
+      "env": {
+        "ELECTRON_RUN_AS_NODE": "1",
+        "VSCODE_NLS_CONFIG": "1"
+      },
+      "module": "${userHome}/.vscode/extensions/ms-python.vscode-pylance-2023.7.30/dist/server.bundle.js",
+      "initializationOptions": {},
+      "settings": {
+        "python.analysis.typeCheckingMode": "basic",
+        "python.analysis.diagnosticMode": "openFilesOnly",
+        "python.analysis.stubPath": "./typings",
+        "python.analysis.autoSearchPaths": true,
+        "python.analysis.extraPaths": [],
+        "python.analysis.diagnosticSeverityOverrides": {},
+        "python.analysis.useLibraryCodeForTypes": true,
+	"python.autoComplete.addBrackets": true
+      }
+    }
+  },
+  "coc.preferences.formatOnType": true
+}
