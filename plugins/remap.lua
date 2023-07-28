@@ -56,6 +56,6 @@ vim.keymap.set('n','<C-u>',"<C-u>zz")
 
 vim.keymap.set('n','n',"nzzzn")
 vim.keymap.set('n','N',"Nzzzn")
-vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle)
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 vim.keymap.set("n", "<c-F>",
   "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })

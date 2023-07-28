@@ -29,11 +29,14 @@ vim.opt.clipboard = "unnamedplus"
 require("lazy").setup({
 	"lambdalisue/suda.vim",
 	"doums/darcula",
-  	"neoclide/coc.nvim",
 	"tpope/vim-fugitive",
     "preservim/nerdtree",
     'neovim/nvim-lspconfig',
     "folke/neodev.nvim",
+    "numToStr/Comment.nvim",
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'JoosepAlviste/nvim-ts-context-commentstring'},
     "ryanoasis/vim-devicons",
 'mbbill/undotree',
     "nvim-lua/plenary.nvim",
@@ -58,20 +61,31 @@ require("lazy").setup({
             local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
             ts_update()
         end,
-}})
+},
+{
+  'VonHeikemen/lsp-zero.nvim',
+  branch = 'v2.x',
+  dependencies = {
+    -- LSP Support
+    {'neovim/nvim-lspconfig'},             -- Required
+    {'williamboman/mason.nvim'},           -- Optional
+    {'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+    -- Autocompletion
+    {'hrsh7th/nvim-cmp'},     -- Required
+    {'hrsh7th/cmp-nvim-lsp'}, -- Required
+    {'L3MON4D3/LuaSnip'},     -- Required
+  }
+}
+})
 
 require('plugins/debug')
 require('plugins/remap')
 require('plugins/treesitter')
 require('plugins/prettier')
+require('plugins/lsp_zero')
+require('plugins/comments')
 
-vim.api.nvim_call_function('coc#config', {
-    'languageserver', {
-        pylance = {
-            module = vim.fn.expand("~/.vscode/extensions/ms-python.vscode-pylance-*/dist/server.bundle.js", 0, 1)[1]
-        }
-    }
-})
 
 vim.api.nvim_exec([[
     augroup MyNERDTree
