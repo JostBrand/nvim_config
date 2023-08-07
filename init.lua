@@ -26,6 +26,8 @@ local opts = {silent = true, noremap = true, expr = true, replace_keycodes = fal
 
 vim.opt.clipboard = "unnamedplus"
 
+
+
 require("lazy").setup({
 	"lambdalisue/suda.vim",
 	"doums/darcula",
@@ -34,9 +36,9 @@ require("lazy").setup({
     'neovim/nvim-lspconfig',
     "folke/neodev.nvim",
     "numToStr/Comment.nvim",
-    'nvim-treesitter/nvim-treesitter',
+    {'nvim-treesitter/nvim-treesitter',
     dependencies = {
-      'JoosepAlviste/nvim-ts-context-commentstring'},
+      'JoosepAlviste/nvim-ts-context-commentstring'}},
     "ryanoasis/vim-devicons",
 'mbbill/undotree',
     "nvim-lua/plenary.nvim",
@@ -44,16 +46,11 @@ require("lazy").setup({
 { 'rose-pine/neovim', name = 'rose-pine' },
     "mfussenegger/nvim-dap-python",
 	"rcarriga/nvim-dap-ui",
-{
-    "ibhagwan/fzf-lua",
     'jose-elias-alvarez/null-ls.nvim',
     'MunifTanjim/prettier.nvim',
-  -- optional for icon support
+{
+    "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  config = function()
-    -- calling `setup` is optional for customization
-    require("fzf-lua").setup({})
-  end
 },
 {
         'nvim-treesitter/nvim-treesitter',
@@ -79,6 +76,7 @@ require("lazy").setup({
 }
 })
 
+
 require('plugins/debug')
 require('plugins/remap')
 require('plugins/treesitter')
@@ -87,16 +85,29 @@ require('plugins/lsp_zero')
 require('plugins/comments')
 
 
+
 vim.api.nvim_exec([[
+    function! IsGitRepository()
+        return isdirectory('.git') || filereadable('.git')
+    endfunction
+
     augroup MyNERDTree
         autocmd!
         autocmd StdinReadPre * let s:std_in=1
-        autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' | NERDTree | endif
+        autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' && IsGitRepository() | NERDTree | endif
     augroup END
 ]], false)
 
 vim.cmd('colorscheme rose-pine')
 
+
+vim.g.suda_smart_edit = 1
+-- suda.vim
+vim.api.nvim_exec([[
+    augroup suda_smart_edit
+    autocmd!
+    autocmd BufEnter * nested call suda#BufEnter()
+  augroup end]],false)
 -- General options
 vim.opt.nu = true
 vim.opt.relativenumber = true
