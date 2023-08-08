@@ -25,8 +25,8 @@ end
 local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
 
 vim.opt.clipboard = "unnamedplus"
-
-
+vim.g.suda_smart_edit = 1
+vim.g.suda_nopass = 1
 
 require("lazy").setup({
 	"lambdalisue/suda.vim",
@@ -101,13 +101,6 @@ vim.api.nvim_exec([[
 vim.cmd('colorscheme rose-pine')
 
 
-vim.g.suda_smart_edit = 1
--- suda.vim
-vim.api.nvim_exec([[
-    augroup suda_smart_edit
-    autocmd!
-    autocmd BufEnter * nested call suda#BufEnter()
-  augroup end]],false)
 -- General options
 vim.opt.nu = true
 vim.opt.relativenumber = true
