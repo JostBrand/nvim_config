@@ -15,6 +15,12 @@ lsp.setup()
 -- You need to setup `cmp` after lsp-zero
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
+local autopairs = require("nvim-autopairs").setup({})
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 
 cmp.setup({
   mapping = {
@@ -27,5 +33,26 @@ cmp.setup({
     -- Navigate between snippet placeholder
     ['<C-f>'] = cmp_action.luasnip_jump_forward(),
     ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+
+
+['<Tab>'] = cmp.mapping(function(fallback)
+  if cmp.visible() then
+    if #cmp.get_entries() == 1 then
+      cmp.confirm({ select = true })
+    else
+      cmp.select_next_item()
+    end
+  else
+    fallback()
+  end
+end, { 'i', 's' }),
+
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
   }
 })

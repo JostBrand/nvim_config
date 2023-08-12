@@ -31,6 +31,7 @@ vim.g.suda_nopass = 1
 require("lazy").setup({
 	"lambdalisue/suda.vim",
 	"doums/darcula",
+"windwp/nvim-autopairs",
 	"tpope/vim-fugitive",
     "preservim/nerdtree",
     'neovim/nvim-lspconfig',
