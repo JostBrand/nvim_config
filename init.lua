@@ -74,7 +74,36 @@ require("lazy").setup({
     {'hrsh7th/cmp-nvim-lsp'}, -- Required
     {'L3MON4D3/LuaSnip'},     -- Required
   }
-}
+},
+  {
+    "kiyoon/jupynium.nvim",
+    build = "pip3 install --user .",
+    -- build = "conda run --no-capture-output -n jupynium pip install .",
+    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
+  },
+{
+  'glepnir/dashboard-nvim',
+  event = 'VimEnter',
+  config = function()
+    require('dashboard').setup {
+      -- config
+    }
+  end,
+  dependencies = { {'nvim-tree/nvim-web-devicons'}}
+},
+{
+	"Pocco81/true-zen.nvim",
+	config = function()
+		 require("true-zen").setup {
+			-- your config goes here
+			-- or just leave it empty :)
+		 }
+	end,
+},
+{
+  'nvim-lualine/lualine.nvim',
+  requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+},
 })
 
 
@@ -84,20 +113,8 @@ require('plugins/treesitter')
 require('plugins/prettier')
 require('plugins/lsp_zero')
 require('plugins/comments')
+require('plugins/lualine')
 
-
-
-vim.api.nvim_exec([[
-    function! IsGitRepository()
-        return isdirectory('.git') || filereadable('.git')
-    endfunction
-
-    augroup MyNERDTree
-        autocmd!
-        autocmd StdinReadPre * let s:std_in=1
-        autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' && IsGitRepository() | NERDTree | endif
-    augroup END
-]], false)
 
 vim.cmd('colorscheme rose-pine')
 
@@ -119,3 +136,6 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
+
+
+
