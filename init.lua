@@ -47,12 +47,14 @@ require("lazy").setup({
 { 'rose-pine/neovim', name = 'rose-pine' },
     "mfussenegger/nvim-dap-python",
 	"rcarriga/nvim-dap-ui",
+    "ThePrimeagen/harpoon",
     'jose-elias-alvarez/null-ls.nvim',
     'MunifTanjim/prettier.nvim',
-{
-    "ibhagwan/fzf-lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-},
+    {
+    'nvim-telescope/telescope.nvim',
+      dependencies = { 'nvim-lua/plenary.nvim' }
+    },
+
 {
         'nvim-treesitter/nvim-treesitter',
         run = function()
@@ -114,6 +116,7 @@ require('plugins/prettier')
 require('plugins/lsp_zero')
 require('plugins/comments')
 require('plugins/lualine')
+require('plugins/harpoon')
 
 
 vim.cmd('colorscheme rose-pine')
