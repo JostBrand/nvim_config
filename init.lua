@@ -35,6 +35,7 @@ require("lazy").setup({
 	"tpope/vim-fugitive",
     "preservim/nerdtree",
     'neovim/nvim-lspconfig',
+   'Vigemus/iron.nvim',
     "folke/neodev.nvim",
     "numToStr/Comment.nvim",
     {'nvim-treesitter/nvim-treesitter',
@@ -48,6 +49,7 @@ require("lazy").setup({
     "mfussenegger/nvim-dap-python",
 	"rcarriga/nvim-dap-ui",
     "ThePrimeagen/harpoon",
+    "preservim/tagbar",
     'jose-elias-alvarez/null-ls.nvim',
     'MunifTanjim/prettier.nvim',
     {
@@ -117,6 +119,7 @@ require('plugins/lsp_zero')
 require('plugins/comments')
 require('plugins/lualine')
 require('plugins/harpoon')
+require('plugins/iron')
 
 
 vim.cmd('colorscheme rose-pine')
@@ -139,6 +142,3 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
-
-
-

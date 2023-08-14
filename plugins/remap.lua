@@ -77,3 +77,6 @@ end, { noremap = true })
 vim.keymap.set('n', '<leader>zf', truezen.focus, { noremap = true })
 vim.keymap.set('n', '<leader>zm', truezen.minimalist, { noremap = true })
 vim.keymap.set('n', '<leader>za', truezen.ataraxis, { noremap = true })
+
+--smart toggle nerdtree so it looks for git or goes into current dir of open buffer
+vim.api.nvim_set_keymap('n', '<C-n>', ':lua require("plugins/nerdtree").nerdtree_smart_toggle()<CR>', { noremap = true, silent = true })
