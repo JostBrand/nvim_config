@@ -45,11 +45,14 @@ vim.keymap.set('n', '<F6>', ":lua require'dap'.step_over()<CR>", { noremap = tru
 vim.keymap.set('n', '<F7>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<F8>', ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<c-P>",  "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
-
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<C-f>',function () builtin.find_files({hidden=true}) end,{})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 vim.keymap.set('v','J',":m '>+1<CR>gv=gv") -- shift lines in visual
-vim.keymap.set('v','K',":m '<-2<CR>gv=gv") 
+vim.keymap.set('v','K',":m '<-2<CR>gv=gv")
 
 vim.keymap.set('n','<C-d>',"<C-d>zz") -- keep jumps centered
 vim.keymap.set('n','<C-u>',"<C-u>zz")
@@ -57,10 +60,6 @@ vim.keymap.set('n','<C-u>',"<C-u>zz")
 vim.keymap.set('n','n',"nzzzn")
 vim.keymap.set('n','N',"Nzzzn")
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-vim.keymap.set("n", "<c-F>",
-  "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
-
-
 
 -- zen mode
 local truezen = require('true-zen')
