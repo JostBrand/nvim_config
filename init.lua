@@ -34,6 +34,7 @@ require("lazy").setup({
 "windwp/nvim-autopairs",
 	"tpope/vim-fugitive",
     "preservim/nerdtree",
+    "onsails/lspkind.nvim",
     'neovim/nvim-lspconfig',
    'Vigemus/iron.nvim',
     "folke/neodev.nvim",
