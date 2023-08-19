@@ -80,3 +80,14 @@ vim.keymap.set('n', '<leader>za', truezen.ataraxis, { noremap = true })
 
 --smart toggle nerdtree so it looks for git or goes into current dir of open buffer
 vim.api.nvim_set_keymap('n', '<C-n>', ':lua require("plugins/nerdtree").nerdtree_smart_toggle()<CR>', { noremap = true, silent = true })
+
+
+vim.cmd [[
+function! PythonifyList()
+    :s/^\(.*\)$/["\1"]/
+    :s/[ ,]\+/", "/g
+endfunction
+]]
+
+-- Map this function to a key for convenience, let's say <Leader>p
+vim.api.nvim_set_keymap('n', '<Leader>br', ':call PythonifyList()<CR>', { noremap = true, silent = true })
