@@ -40,7 +40,7 @@ null_ls.setup({ sources=sources,
 local prettier = require("prettier")
 
 prettier.setup({
-  bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
+  bin = 'prettierd', -- or `'prettierd'` (v0.23.3+)
   filetypes = {
     "css",
     "graphql",

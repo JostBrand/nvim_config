@@ -28,4 +28,3 @@ M.nerdtree_smart_toggle = function()
 end
 
 return M
-

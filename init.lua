@@ -119,8 +119,9 @@ require('plugins/prettier')
 require('plugins/lsp_zero')
 require('plugins/comments')
 require('plugins/lualine')
-require('plugins/harpoon')
+--require('plugins/harpoon')
 require('plugins/iron')
+--require('plugins/colemak')
 
 
 vim.cmd('colorscheme rose-pine')

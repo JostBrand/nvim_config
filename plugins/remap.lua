@@ -1,6 +1,5 @@
 local keyset = vim.keymap.set
-vim.keymap.set('i', 'jk', '<Esc>', {noremap = true, silent = true})
-vim.keymap.set('i', 'jj', '<Esc>', {noremap = true, silent = true})
+vim.keymap.set('i', 'qw', '<Esc>', {noremap = true, silent = true})
 
 -- Visual mode mapping for indenting using Tab
 vim.keymap.set('v', '<Tab>', '>gv', {noremap = true, silent = true})
@@ -37,13 +36,6 @@ vim.keymap.set('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', {noremap 
 vim.keymap.set('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true, noremap = true})
 vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', {expr = true, noremap = true})
 vim.keymap.set('i', '<CR>', 'pumvisible() ? "\\<C-y>" : "\\<C-g>u\\<CR>"', {expr = true, noremap = true})
-
--- Define the keybindings
-vim.keymap.set('n', '<C-b>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F6>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F7>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F8>', ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-f>',function () builtin.find_files({hidden=true}) end,{})
