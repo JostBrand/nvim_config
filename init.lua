@@ -25,12 +25,13 @@ end
 local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
 
 vim.opt.clipboard = "unnamedplus"
-vim.g.suda_smart_edit = 1
-vim.g.suda_nopass = 1
+vim.g['suda_smart_edit'] = 1
+vim.g['suda#nopass'] = 1
+vim.g['suda#prompt']='pw:'
 
 require("lazy").setup({
 	"lambdalisue/suda.vim",
-'hrsh7th/nvim-cmp',
+    'hrsh7th/nvim-cmp',
 	"doums/darcula",
     "windwp/nvim-autopairs",
 	"tpope/vim-fugitive",
@@ -38,11 +39,11 @@ require("lazy").setup({
     "onsails/lspkind.nvim",
     'neovim/nvim-lspconfig',
    'Vigemus/iron.nvim',
-'mhinz/vim-startify',
+    'mhinz/vim-startify',
     "folke/neodev.nvim",
     "numToStr/Comment.nvim",
     "ryanoasis/vim-devicons",
-'mbbill/undotree',
+    'mbbill/undotree',
     "nvim-lua/plenary.nvim",
     "mfussenegger/nvim-dap",
 { 'rose-pine/neovim', name = 'rose-pine' },
@@ -71,7 +72,6 @@ require("lazy").setup({
 	config = function()
 		 require("true-zen").setup {
 			-- your config goes here
-			-- or just leave it empty :)
 		 }
 	end,
 },
@@ -91,9 +91,7 @@ require('plugins/comments')
 require('plugins/lualine')
 require('plugins/iron')
 
-
 vim.cmd('colorscheme rose-pine')
-
 
 -- General options
 vim.opt.nu = true
