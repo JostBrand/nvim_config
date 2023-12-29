@@ -7,22 +7,18 @@ if not vim.loop.fs_stat(lazypath) then
     "https://github.com/folke/lazy.nvim.git",
     "--branch=stable", -- latest stable release
     lazypath,
-  }) 
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- In Ihrer init.lua
 local config_path = vim.fn.stdpath('config')
 package.path = config_path .. "/?.lua;" .. config_path .. "/?/init.lua;" .. config_path .. "/plugins/?.lua;" .. package.path
 
-vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
--- Autocomplete
+vim.g.mapleader = " "
 function _G.check_back_space()
     local col = vim.fn.col('.') - 1
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
-
-local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
 
 vim.opt.clipboard = "unnamedplus"
 vim.g['suda_smart_edit'] = 1
@@ -31,13 +27,15 @@ vim.g['suda#prompt']='pw:'
 
 require("lazy").setup({
 	"lambdalisue/suda.vim",
-    'hrsh7th/nvim-cmp',
+    {'hrsh7th/nvim-cmp',dependencies={'L3MON4D3/LuaSnip'}},
+    'williamboman/mason.nvim',
+    "williamboman/mason-lspconfig.nvim",
 	"doums/darcula",
     "windwp/nvim-autopairs",
 	"tpope/vim-fugitive",
     "preservim/nerdtree",
     "onsails/lspkind.nvim",
-    'neovim/nvim-lspconfig',
+    {'neovim/nvim-lspconfig',dependencies={'hrsh7th/cmp-nvim-lsp'}},
    'Vigemus/iron.nvim',
     'mhinz/vim-startify',
     "folke/neodev.nvim",
@@ -51,22 +49,13 @@ require("lazy").setup({
 	"rcarriga/nvim-dap-ui",
     "ThePrimeagen/harpoon",
     "preservim/tagbar",
-    'jose-elias-alvarez/null-ls.nvim',
     'MunifTanjim/prettier.nvim',
     {
     'nvim-telescope/telescope.nvim',
       dependencies = { 'nvim-lua/plenary.nvim' }
     },
-
-        'nvim-treesitter/nvim-treesitter',
-{
-  'VonHeikemen/lsp-zero.nvim'},
-  {
-    "kiyoon/jupynium.nvim",
-    build = "pip3 install --user .",
-    -- build = "conda run --no-capture-output -n jupynium pip install .",
-    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
-  },
+    'nvim-treesitter/nvim-treesitter',
+  'VonHeikemen/lsp-zero.nvim',
 {
 	"Pocco81/true-zen.nvim",
 	config = function()
@@ -77,11 +66,11 @@ require("lazy").setup({
 },
 {
   'nvim-lualine/lualine.nvim',
-  requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  dependencies = { 'nvim-tree/nvim-web-devicons' }
 },
 })
 
-
+--Loading my personal settings
 require('plugins/debug')
 require('plugins/remap')
 require('plugins/treesitter')
@@ -110,3 +99,4 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
+vim.opt.smartcase = true

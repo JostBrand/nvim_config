@@ -8,10 +8,10 @@ vim.keymap.set('v', '<Tab>', '>gv', {noremap = true, silent = true})
 vim.keymap.set('v', '<S-Tab>', '<gv', {noremap = true, silent = true})
 
 -- Map <leader>n to NERDTreeFocus
-vim.keymap.set('n', '<leader>n', ':NERDTreeFocus<CR>', {noremap = true, silent = true})
+-- vim.keymap.set('n', '<leader>n', ':NERDTreeFocus<CR>', {noremap = true, silent = true})
 
 -- Map <C-t> to NERDTreeToggle
-vim.keymap.set('n', '<C-n>', ':NERDTreeToggle<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>n', ':NERDTreeToggle<CR>', {noremap = true, silent = true})
 
 -- Map <C-f> to NERDTreeFind
 vim.keymap.set('n', '<C-f>', ':NERDTreeFind<CR>', {noremap = true, silent = true})
