@@ -30,18 +30,17 @@ vim.g.suda_nopass = 1
 
 require("lazy").setup({
 	"lambdalisue/suda.vim",
+'hrsh7th/nvim-cmp',
 	"doums/darcula",
-"windwp/nvim-autopairs",
+    "windwp/nvim-autopairs",
 	"tpope/vim-fugitive",
     "preservim/nerdtree",
     "onsails/lspkind.nvim",
     'neovim/nvim-lspconfig',
    'Vigemus/iron.nvim',
+'mhinz/vim-startify',
     "folke/neodev.nvim",
     "numToStr/Comment.nvim",
-    {'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'JoosepAlviste/nvim-ts-context-commentstring'}},
     "ryanoasis/vim-devicons",
 'mbbill/undotree',
     "nvim-lua/plenary.nvim",
@@ -58,44 +57,15 @@ require("lazy").setup({
       dependencies = { 'nvim-lua/plenary.nvim' }
     },
 
-{
         'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end,
-},
 {
-  'VonHeikemen/lsp-zero.nvim',
-  branch = 'v2.x',
-  dependencies = {
-    -- LSP Support
-    {'neovim/nvim-lspconfig'},             -- Required
-    {'williamboman/mason.nvim'},           -- Optional
-    {'williamboman/mason-lspconfig.nvim'}, -- Optional
-
-    -- Autocompletion
-    {'hrsh7th/nvim-cmp'},     -- Required
-    {'hrsh7th/cmp-nvim-lsp'}, -- Required
-    {'L3MON4D3/LuaSnip'},     -- Required
-  }
-},
+  'VonHeikemen/lsp-zero.nvim'},
   {
     "kiyoon/jupynium.nvim",
     build = "pip3 install --user .",
     -- build = "conda run --no-capture-output -n jupynium pip install .",
     -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
   },
-{
-  'glepnir/dashboard-nvim',
-  event = 'VimEnter',
-  config = function()
-    require('dashboard').setup {
-      -- config
-    }
-  end,
-  dependencies = { {'nvim-tree/nvim-web-devicons'}}
-},
 {
 	"Pocco81/true-zen.nvim",
 	config = function()
@@ -119,9 +89,7 @@ require('plugins/prettier')
 require('plugins/lsp_zero')
 require('plugins/comments')
 require('plugins/lualine')
---require('plugins/harpoon')
 require('plugins/iron')
---require('plugins/colemak')
 
 
 vim.cmd('colorscheme rose-pine')
