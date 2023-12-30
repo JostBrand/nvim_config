@@ -38,6 +38,11 @@ require("lazy").setup({
     {'neovim/nvim-lspconfig',dependencies={'hrsh7th/cmp-nvim-lsp'}},
    'Vigemus/iron.nvim',
     'mhinz/vim-startify',
+{
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    requires = { {"nvim-lua/plenary.nvim"} }
+},
     "folke/neodev.nvim",
     "numToStr/Comment.nvim",
     "ryanoasis/vim-devicons",
@@ -88,6 +93,7 @@ require('plugins/lsp_zero')
 require('plugins/comments') -- gcc gb
 require('plugins/lualine') -- status line
 require('plugins/iron') -- repl plugin
+require('plugins/harpoon') -- repl plugin
 
 vim.cmd('colorscheme rose-pine')
 
