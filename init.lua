@@ -68,17 +68,26 @@ require("lazy").setup({
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' }
 },
+{
+ "folke/trouble.nvim",
+ dependencies = { "nvim-tree/nvim-web-devicons" },
+ opts = {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+ },
+}
 })
 
 --Loading my personal settings
 require('plugins/debug')
-require('plugins/remap')
+require('plugins/remap') -- personal keymappings
 require('plugins/treesitter')
 require('plugins/prettier')
 require('plugins/lsp_zero')
-require('plugins/comments')
-require('plugins/lualine')
-require('plugins/iron')
+require('plugins/comments') -- gcc gb
+require('plugins/lualine') -- status line
+require('plugins/iron') -- repl plugin
 
 vim.cmd('colorscheme rose-pine')
 
