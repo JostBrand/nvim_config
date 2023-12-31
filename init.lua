@@ -27,7 +27,7 @@ vim.g['suda#prompt']='pw:'
 
 require("lazy").setup({
 	"lambdalisue/suda.vim",
-    {'hrsh7th/nvim-cmp',dependencies={'L3MON4D3/LuaSnip'}},
+    {'hrsh7th/nvim-cmp',dependencies={'L3MON4D3/LuaSnip',build = "make install_jsregexp"}},
     'williamboman/mason.nvim',
     "williamboman/mason-lspconfig.nvim",
 	"doums/darcula",
