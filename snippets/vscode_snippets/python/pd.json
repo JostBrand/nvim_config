@@ -1,0 +1,357 @@
+{"pd_to_numeric": {
+    "scope": "python",
+    "description": "Convert Series datatype to numeric (will error if column has non-numeric values)  ",
+    "prefix": "pd_to_numeric",
+    "body": [
+        "pd.to_numeric(df['Column Name'])"
+    ]
+},
+"pd_to_numeric_nan": {
+    "scope": "python",
+    "description": "Convert Series datatype to numeric, changing  non-numeric values to NaN  ",
+    "prefix": "pd_to_numeric_nan",
+    "body": [
+        "pd.to_numeric(df['Column Name'], errors='coerce')"
+    ]
+},
+"pd_change_type": {
+    "scope": "python",
+    "description": "Change data type of DataFrame column",
+    "prefix": "pd_change_type",
+    "body": [
+        "df.column_name = df.column_name.astype(np.i,nt64)"
+    ]
+},
+"pd_find_dup": {
+    "scope": "python",
+    "description": "Get a report of all duplicate records in a DataFrame, based on specific columns",
+    "prefix": "pd_find_dup",
+    "body": [
+        "dupes = df[df.duplicated(['col1', 'col2', 'col3'], keep=False)]"
+    ]
+},
+"pd_dedup": {
+    "scope": "python",
+    "description": "Remove duplicated rows",
+    "prefix": "pd_dedup",
+    "body": [
+        "dupes = dupes.drop_duplicates()"
+    ]
+},
+"pd_unique": {
+    "scope": "python",
+    "description": "List unique values in a DataFrame column  ",
+    "prefix": "pd_unique",
+    "body": [
+        "df['Column Name'].unique()"
+    ]
+},
+"pd_unique_freq": {
+    "scope": "python",
+    "description": "For each unique value in a DataFrame column, get a frequency count",
+    "prefix": "pd_unique_freq",
+    "body": [
+        "df['Column Name'].value_counts()"
+    ]
+},
+"pd_find_by_column": {
+    "scope": "python",
+    "description": "Grab DataFrame rows where column = a specific value",
+    "prefix": "pd_find_by_column",
+    "body": [
+        "df = df.loc[df.column == 'somevalue']"
+    ]
+},
+"pd_find_in_a_list": {
+    "scope": "python",
+    "description": "Grab DataFrame rows where column value is / is not present in a list",
+    "prefix": "pd_find_in_a_list",
+    "body": [
+        "test_data = {'hi': 'yo', 'bye': 'later'}",
+        "df = pd.DataFrame(list(d.items()), columns=['col1', 'col2'])",
+        "valuelist = ['yo', 'heya']",
+        "df[df.col2.isin(valuelist)]"
+    ]
+},
+"pd_find_by_column_multi": {
+    "scope": "python",
+    "description": "Select from DataFrame using criteria from multiple columns  ",
+    "prefix": "pd_find_by_column_multi",
+    "body": [
+        "newdf = df[(df['column_one']>2004) & (df['column_two']==9)]"
+    ]
+},
+"pd_iterrows": {
+    "scope": "python",
+    "description": "Loop through rows in a DataFrame (if you must)",
+    "prefix": "pd_iterrows",
+    "body": [
+        "for index, row in df.iterrows():",
+        "\tprint (index, row['some column'])"
+    ]
+},
+"pd_itertuples": {
+    "scope": "python",
+    "description": "Much faster way to loop through DataFrame rows if you can work with tuples  ",
+    "prefix": "pd_itertuples",
+    "body": [
+        "for row in df.itertuples():",
+        "\tprint(row)"
+    ]
+},
+"pd_top5": {
+    "scope": "python",
+    "description": "Get top n for each group of columns in a sorted DataFrame (make sure DataFrame is sorted first)",
+    "prefix": "pd_top5",
+    "body": [
+        "top5 = df.groupby(['groupingcol1','groupingcol2']).head(5)"
+    ]
+},
+"pd_find_null": {
+    "scope": "python",
+    "description": "Grab DataFrame rows where specific column is null/notnull",
+    "prefix": "pd_find_null",
+    "body": [
+        "newdf = df[df['column'].isnull()]"
+    ]
+},
+"pd_find_multi_index": {
+    "scope": "python",
+    "description": "Select from DataFrame using multiple keys of a hierarchical index",
+    "prefix": "pd_find_multi_index",
+    "body": [
+        "df.xs(('index level 1 value','index level 2 value'), level=('level 1','level 2'))"
+    ]
+},
+"pd_slice": {
+    "scope": "python",
+    "description": "Slice values in a DataFrame column (aka Series)",
+    "prefix": "pd_slice",
+    "body": [
+        "df.column.str[0:2]"
+    ]
+},
+"pd_count_rows": {
+    "scope": "python",
+    "description": "Get quick count of rows in a DataFrame",
+    "prefix": "pd_count_rows",
+    "body": [
+        "len(df.index)"
+    ]
+},
+"pd_len_col": {
+    "scope": "python",
+    "description": "Get length of data in a DataFrame column",
+    "prefix": "pd_len_col",
+    "body": [
+        "df.column_name.str.len()"
+    ]
+},
+"pd_del_col": {
+    "scope": "python",
+    "description": "Delete column from DataFrame",
+    "prefix": "pd_del_col",
+    "body": [
+        "del df['column']"
+    ]
+},
+"pd_drop_col": {
+    "scope": "python",
+    "description": "Drop column from DataFrame",
+    "prefix": "pd_rop_col",
+    "body": [
+        "df.drop(column=[])"
+    ]
+},
+"pd_rename_columns": {
+    "scope": "python",
+    "description": "Rename several DataFrame columns",
+    "prefix": "pd_rename_columns",
+    "body": [
+        "df = df.rename(columns = {",
+            "\t'col1_old_name':'col1_new_name',",
+            "\t'col2_old_name':'col2_new_name',",
+            "\t'col3_old_name':'col3_new_name',",
+            "\t})"
+    ]
+},
+"pd_lower_all_colname": {
+    "scope": "python",
+    "description": "Lower-case all DataFrame column names",
+    "prefix": "pd_lower_all_colname",
+    "body": [
+        "df.columns = map(str.lower, df.columns)"
+    ]
+},
+"pd_lower_all": {
+    "scope": "python",
+    "description": "Lower-case everything in a DataFrame column",
+    "prefix": "pd_lower_all",
+    "body": [
+        "df.column_name = df.column_name.str.lower()"
+    ]
+},
+"pd_sort_mult": {
+    "scope": "python",
+    "description": "Sort DataFrame by multiple columns",
+    "prefix": "pd_sort_mult",
+    "body": [
+        "df = df.sort_values(",
+            "\t'col1','col2','col3'],ascending=[1,1,0])"
+        ]
+},
+"pd_nan2none": {
+    "scope": "python",
+    "description": "Change all NaNs to None (useful before loading to a db)",
+    "prefix": "pd_nan2none",
+    "body": [
+        "df = df.where((pd.notnull(df)), None)"
+    ]
+},
+"pd_db_clean": {
+    "scope": "python",
+    "description": "More pre-db insert cleanup...make a pass through the DataFrame, stripping whitespace from strings and changing any empty values to `None`  ",
+    "prefix": "pd_db_clean",
+    "body": [
+        "df = df.applymap(lambda x: str(x).strip() if len(str(x).strip()) else None)"
+    ]
+},
+"pd_clean_nonNumeric": {
+    "scope": "python",
+    "description": "Get rid of non-numeric values throughout a DataFrame:",
+    "prefix": "pd_clean_nonNumeric",
+    "body": [
+        "for col in refunds.columns.values:",
+        "\trefunds[col] = refunds[col].replace(",
+            "\t'[^0-9]+.-', '', regex=True)"
+    ]
+},
+"pd_colVal_if": {
+    "scope": "python",
+    "description": "Set DataFrame column values based on other column values  ",
+    "prefix": "pd_colVal_if",
+    "body": [
+        "df.loc[(df['column1'] == some_value) & (df['column2'] == some_other,_value), ['column_to_change']] = new_value"
+    ]
+},
+"pd_cleanMissing": {
+    "scope": "python",
+    "description": "Clean up missing values in multiple DataFrame columns",
+    "prefix": "pd_cleanMissing",
+    "body": [
+        "df = df.fillna(",
+            "\t'col1': 'missing',",
+            "\t'col2': '99.999',",
+            "\t'col3': '999',",
+            "\t'col4': 'missing',",
+            "\t'col5': 'missing',",
+            "\t'col6': '99'})"
+    ]
+    },
+    "pd_swap0_with_null": {
+        "scope": "python",
+        "description": "Doing calculations with DataFrame columns that have missing values. In example below, swap in 0 for df['col1'] cells that contain null.",
+        "prefix": "pd_swap0_with_null",
+        "body": [
+            "df['new_col'] = np.where(",
+                "\tpd.isnull(df['col1']), 0, df['col1']) + df['col2']"
+        ]
+    },
+    "pd_split_delimeted": {
+        "scope": "python",
+        "description": "Split delimited values in a DataFrame column into two new columns  ",
+        "prefix": "pd_split_delimeted",
+        "body": [
+            "df['new_col1'], df['new_col2'] = zip(",
+                "\t*df['original_col'].apply(",
+                    "\tlambda x: x.split(': ', 1)))"
+        ]
+    },
+    "pd_collapse_hier": {
+        "scope": "python",
+        "description": "Collapse hierarchical column indexes",
+        "prefix": "pd_collapse_hier",
+        "body": [
+            "df.columns = df.columns.get_level_values(0),"
+        ]
+    },
+    "pd_pt": {
+        "scope": "python",
+        "description": "Pivot data (with flexibility about what what becomes a column and what stays a row).  ",
+        "prefix": "pd_pt",
+        "body": [
+            "pd.pivot_table(",
+                "\tdf,values='cell_value',",
+                "\tindex=['col1', 'col2', 'col3'], #these stay as columns; will fail silently if any of these cols have null values",
+                "\tcolumns=['col4']) #data values in this column become their own column",
+                "\taggfunc='count',"
+        ]
+    },
+    "pd_concat_1col": {
+        "scope": "python",
+        "description": "Concatenate two DataFrame columns into a new, single column  ",
+        "prefix": "pd_concat_1col",
+        "body": [
+            "df['newcol'] = df['col1'].astype(str) + df['col2'].astype(str)"
+        ]
+    },
+    "pd_merge": {
+        "scope": "python",
+        "description": "Merge two DataFrame into a new - leftjoin or vlookup",
+        "prefix": "pd_merge",
+        "body": [
+            "df1 = pd.merge(",
+                "\tdf1,",
+                "\tdf2,",
+                "\thow='left',",
+                "\tleft_on=[],",
+                "\tright_on=[],",
+                "\tindicator=True,)"
+        ]
+    },
+    "pd_3Decimal": {
+        "scope": "python",
+        "description": "Set up formatting so larger numbers aren't displayed in scientific notation  ",
+        "prefix": "pd_3Decimal",
+        "body": [
+            "pd.set_option('display.float_format', lambda x: '%.3f' % x)"
+        ]
+    },
+    "pd_": {
+        "scope": "python",
+        "description": "To display with commas and no decimals",
+        "prefix": "pd_comma",
+        "body": [
+            "pd.options.display.float_format ='{:,.0f}'.format"
+        ]
+    },
+    "pd_dict2df": {
+        "scope": "python",
+        "description": "Create a DataFrame from a Python dictionary",
+        "prefix": "pd_dict2df",
+        "body": [
+            "df = pd.DataFrame(list(a_dictionary.items()), columns = ['column1', 'column2'])"
+        ]
+    },
+    "pd_django2df": {
+        "scope": "python",
+        "description": "Convert Django queryset to DataFrame",
+        "prefix": "pd_django2df",
+        "body": [
+            "qs = DjangoModelName.objects.all()",
+            "\tq = qs.values()",
+            "\tdf = pd.DataFrame.from_records(q)"]
+    },
+    "pd_2csv": {
+        "scope": "python",
+        "description": "Export df to CSV",
+        "prefix": "pd_2csv",
+        "body": ["df.to_csv(str(Path.cwd() / f'{}.csv'), index=False, sep=';')"]
+    },
+    "pd_load_csv": {
+        "scope": "python",
+        "description": "Load CSV to df",
+        "prefix": "pd_load_csv",
+        "body": ["df = pd.read_csv(str(Path.cwd() / f'{}.csv'), sep=';')"]
+    }
+}

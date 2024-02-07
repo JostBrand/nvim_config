@@ -43,13 +43,14 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
--- import luasnip plugin safely
-local luasnip_status, luasnip = pcall(require, "luasnip")
-if not luasnip_status then
-  return
-end
-require("luasnip.loaders.from_vscode").lazy_load("~/.config/nvim/snippets")
-require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets"})
+local luasnip = require("luasnip")
+luasnip.config.set_config({
+    history= true,
+    enable_autosnippets = true,
+})
+luasnip.log.set_loglevel("info")
+require("luasnip.loaders.from_vscode").lazy_load{}
+require("luasnip.loaders.from_lua").lazy_load{}
 
 cmp.setup({
 
@@ -119,6 +120,5 @@ cmp.setup({
       -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
     })
   }})
-
 end
 }}

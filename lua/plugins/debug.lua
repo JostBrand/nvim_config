@@ -1,4 +1,11 @@
-require("lspconfig")
+return {
+    {"mfussenegger/nvim-dap",dependencies={
+    "folke/neodev.nvim",
+    "mfussenegger/nvim-dap-python",
+	"rcarriga/nvim-dap-ui"
+},
+    config = function ()
+        
 require("neodev").setup({library = { plugins = { "nvim-dap-ui" }, types = true }})
 require("dapui").setup()
 require('dap-python').setup()
@@ -42,11 +49,5 @@ dap.configurations.python = {
     end;
   },
 }
--- Define the keybindings
-vim.keymap.set('n', '<C-b>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F6>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F7>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F8>', ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
-
-
+    end
+}}

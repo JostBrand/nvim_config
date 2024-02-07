@@ -9,9 +9,9 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-vim.opt.rtp:prepend(lazypath)
 
-local config_path = vim.fn.stdpath('config')
+vim.opt.rtp:prepend(lazypath)
+config_path = vim.fn.stdpath('config')
 package.path = config_path .. "/?.lua;" .. config_path .. "/?/init.lua;" .. config_path .. "/plugins/?.lua;" .. package.path
 
 vim.g.mapleader = " "
@@ -28,21 +28,12 @@ require("lazy").setup({
 	"doums/darcula",
     "windwp/nvim-autopairs",
 	"tpope/vim-fugitive",
-   'Vigemus/iron.nvim',
     'mhinz/vim-startify',
-{
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    requires = { {"nvim-lua/plenary.nvim"} }
-},
-    "folke/neodev.nvim",
     "ryanoasis/vim-devicons",
     'mbbill/undotree',
     "nvim-lua/plenary.nvim",
-    "mfussenegger/nvim-dap",
 { 'rose-pine/neovim', name = 'rose-pine' },
-    "mfussenegger/nvim-dap-python",
-	"rcarriga/nvim-dap-ui",
+
     "preservim/tagbar",
     {
     'nvim-telescope/telescope.nvim',
@@ -65,15 +56,12 @@ require("lazy").setup({
   -- or leave it empty to use the default settings
   -- refer to the configuration section below
  },
-}
+},
 })
 
-
-require('plugins/debug')
 require('settings/remap') -- personal keymappings
 require('settings/general') -- settings
 
 require('plugins/iron') -- repl plugin
-require('plugins/harpoon') -- repl plugin
 
 vim.cmd('colorscheme rose-pine')
