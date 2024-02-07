@@ -57,6 +57,11 @@ require("lazy").setup({
   -- refer to the configuration section below
  },
 },
+  performance = {
+    rtp = {
+      paths = { "~/.config/nvim/snippets" }
+    }
+  }
 })
 
 require('settings/remap') -- personal keymappings

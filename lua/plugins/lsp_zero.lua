@@ -51,6 +51,8 @@ luasnip.config.set_config({
 luasnip.log.set_loglevel("info")
 require("luasnip.loaders.from_vscode").lazy_load{}
 require("luasnip.loaders.from_lua").lazy_load{}
+require("luasnip.loaders.from_lua").load{paths = "~/.config/nvim/snippets/lua_snippets"}
+require("luasnip.loaders.from_vscode").load{paths = "~/.config/nvim/snippets/vscode_snippets"}
 
 cmp.setup({
 
