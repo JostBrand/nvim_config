@@ -2,6 +2,9 @@ return {
     {'hrsh7th/nvim-cmp',dependencies={'L3MON4D3/LuaSnip',dependencies = { "rafamadriz/friendly-snippets" },build = "make install_jsregexp"}},
     "saadparwaiz1/cmp_luasnip",
     'williamboman/mason.nvim',
+
+"hrsh7th/cmp-path",
+"hrsh7th/cmp-buffer",
     "williamboman/mason-lspconfig.nvim",
     "onsails/lspkind.nvim",
     {'neovim/nvim-lspconfig',dependencies={'hrsh7th/cmp-nvim-lsp'}},
@@ -24,7 +27,6 @@ require('mason-lspconfig').setup({
     lsp_zero.default_setup,
   },
 })
-
 lsp_zero.setup()
 -- You need to setup `cmp` after lsp-zero
 local cmp = require('cmp')
@@ -58,6 +60,8 @@ cmp.setup({
 
   sources = {
     {name = 'nvim_lsp'},
+    {name = 'buffer'},
+    {name = 'path'},
     {name = 'luasnip'},
   },
     snippet = {

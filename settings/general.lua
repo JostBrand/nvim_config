@@ -35,6 +35,19 @@ vim.opt.smartcase = true
 
 
 vim.opt.clipboard = "unnamedplus"
-vim.g['suda_smart_edit'] = 1
-vim.g['suda#nopass'] = 1
-vim.g['suda#prompt']='pw:'
+
+
+
+
+function _G.ReloadConfig()
+    for name, _ in pairs(package.loaded) do
+        if name:match('^user') and not name:match('nvim-tree') then
+            package.loaded[name] = nil
+        end
+    end
+    dofile(vim.env.MYVIMRC)
+    vim.notify("Nvim configuration reloaded!", vim.log.levels.INFO)
+end
+
+local opts = { noremap = true, silent = false }
+vim.api.nvim_set_keymap('n', '<leader>rl', '<cmd>lua ReloadConfig()<CR>', opts)

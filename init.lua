@@ -9,7 +9,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 vim.opt.rtp:prepend(lazypath)
 config_path = vim.fn.stdpath('config')
 package.path = config_path .. "/?.lua;" .. config_path .. "/?/init.lua;" .. config_path .. "/plugins/?.lua;" .. package.path
@@ -20,7 +20,10 @@ function _G.check_back_space()
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
-
+--  need to load these settings before lazy
+vim.g['suda_smart_edit'] = 1
+vim.g['suda#nopass'] = 1
+vim.g['suda#prompt']='pw:'
 
 require("lazy").setup({
 {import = "plugins"},
@@ -33,12 +36,7 @@ require("lazy").setup({
     'mbbill/undotree',
     "nvim-lua/plenary.nvim",
 { 'rose-pine/neovim', name = 'rose-pine' },
-
     "preservim/tagbar",
-    {
-    'nvim-telescope/telescope.nvim',
-      dependencies = { 'nvim-lua/plenary.nvim' ,'BurntSushi/ripgrep'}
-    },
 {
 	"Pocco81/true-zen.nvim",
 	config = function()
@@ -66,7 +64,5 @@ require("lazy").setup({
 
 require('settings/remap') -- personal keymappings
 require('settings/general') -- settings
-
-require('plugins/iron') -- repl plugin
 
 vim.cmd('colorscheme rose-pine')
