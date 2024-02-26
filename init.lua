@@ -33,6 +33,11 @@ require("lazy").setup({
 	"tpope/vim-fugitive",
     'mhinz/vim-startify',
     "ryanoasis/vim-devicons",
+{"lukas-reineke/indent-blankline.nvim",
+config= function ()
+
+require("ibl").setup { indent = {char = {"▏"}} }
+end},
     'mbbill/undotree',
     "nvim-lua/plenary.nvim",
 { 'rose-pine/neovim', name = 'rose-pine' },
