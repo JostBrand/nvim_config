@@ -37,14 +37,6 @@ require("lazy").setup({
     "nvim-lua/plenary.nvim",
 { 'rose-pine/neovim', name = 'rose-pine' },
     "preservim/tagbar",
-{
-	"Pocco81/true-zen.nvim",
-	config = function()
-		 require("true-zen").setup {
-			-- your config goes here
-		 }
-	end,
-},
 
 {
  "folke/trouble.nvim",
