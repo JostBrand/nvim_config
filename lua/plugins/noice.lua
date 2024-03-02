@@ -34,6 +34,6 @@ return -- lazy.nvim
             messages = {
                 enabled = false
             }
-        }) 
+        })
     end
 }
