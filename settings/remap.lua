@@ -67,3 +67,11 @@ keyset("n", "<leader>rr", ":MoltenReevaluateCell<CR>",{ silent = true, desc = "r
 keyset("n", "<leader>rd", ":MoltenDelete<CR>",    { silent = true, desc = "molten delete cell" })
 keyset("n", "<leader>oh", ":MoltenHideOutput<CR>",    { silent = true, desc = "hide output" })
 keyset("n", "<leader>os", ":noautocmd MoltenEnterOutput<CR>",    { silent = true, desc = "show/enter output" })
+
+
+local truezen = require("true-zen")
+keyset('n', '<leader>zf', truezen.focus, { noremap = true })
+keyset('n', '<leader>zm', truezen.minimalist, { noremap = true })
+keyset('n', '<leader>za', truezen.ataraxis, { noremap = true })
+
+
