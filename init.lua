@@ -9,27 +9,21 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 vim.opt.rtp:prepend(lazypath)
 config_path = vim.fn.stdpath('config')
-package.path = config_path .. "/?.lua;" .. config_path .. "/?/init.lua;" .. config_path .. "/plugins/?.lua;" .. package.path
-
+package.path = package.path .. ";" .. config_path .. "/?.lua;" .. config_path .. "/?/init.lua;" .. config_path .. "/plugins/?.lua;" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;" .. vim.fn.expand("$HOME").. "/.luarocks/share/lua/5.1/?.lua;"
 vim.g.mapleader = " "
 function _G.check_back_space()
     local col = vim.fn.col('.') - 1
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
---  need to load these settings before lazy
-vim.g['suda_smart_edit'] = 1
-vim.g['suda#nopass'] = 1
-vim.g['suda#prompt']='pw:'
+vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
 {import = "plugins"},
 	"lambdalisue/suda.vim",
 	"doums/darcula",
-    "windwp/nvim-autopairs",
 	"tpope/vim-fugitive",
     "tpope/vim-speeddating",
     'mhinz/vim-startify',
@@ -47,10 +41,11 @@ end},
 {
  "folke/trouble.nvim",
  dependencies = { "nvim-tree/nvim-web-devicons" },
+keys={
+    {"<leader>xq", "<cmd>TroubleToggle quickfix<cr>",desc="Toggle quickfix"},
+    {"<leader>tq", "<cmd>TroubleToggle<cr>",desc="Toggle trouble"}
+},
  opts = {
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  -- refer to the configuration section below
  },
 },
   performance = {

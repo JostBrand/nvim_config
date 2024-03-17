@@ -2,7 +2,22 @@ return {
     {'hrsh7th/nvim-cmp',dependencies={'L3MON4D3/LuaSnip',dependencies = { "rafamadriz/friendly-snippets" },build = "make install_jsregexp"}},
     "saadparwaiz1/cmp_luasnip",
     'williamboman/mason.nvim',
-
+{"windwp/nvim-autopairs",config = function ()
+    local autopairs = require("nvim-autopairs")
+    autopairs.setup({
+    fast_wrap = {
+  map = '<M-e>', -- This is the key mapping to trigger fastwrap
+  chars = {'{', '[', '(', '"', "'"},
+  pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
+  offset = 0, -- Offset from pattern match
+  end_key = '$',
+  keys = 'qwertyuiopzxcvbnmasdfghjkl',
+  check_comma = true,
+  highlight = 'PmenuSel',
+  highlight_grey = 'LineNr',
+}
+})
+end},
 "hrsh7th/cmp-path",
 "hrsh7th/cmp-buffer",
     "williamboman/mason-lspconfig.nvim",
@@ -12,7 +27,6 @@ return {
     {
   'VonHeikemen/lsp-zero.nvim',
   config = function ()
-
 local lsp_zero = require('lsp-zero').preset({})
 lsp_zero.on_attach(function(client, bufnr)
   -- see :help lsp-zero-keybindings
@@ -31,7 +45,6 @@ lsp_zero.setup()
 -- You need to setup `cmp` after lsp-zero
 local cmp = require('cmp')
 local cmp_action = lsp_zero.cmp_action()
-local autopairs = require("nvim-autopairs").setup({})
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local lspkind = require('lspkind')
 cmp.event:on(
@@ -105,4 +118,7 @@ cmp.setup({
     })
   }})
 end
-}}
+}
+}
+
+
