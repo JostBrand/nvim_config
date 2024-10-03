@@ -1,13 +1,13 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 config_path = vim.fn.stdpath('config')
@@ -21,38 +21,38 @@ end
 vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
-{import = "plugins"},
-	"lambdalisue/suda.vim",
-	"doums/darcula",
-	"tpope/vim-fugitive",
+    {import = "plugins"},
+    "lambdalisue/suda.vim",
+    "doums/darcula",
+    "tpope/vim-fugitive",
     "tpope/vim-speeddating",
     'mhinz/vim-startify',
     "ryanoasis/vim-devicons",
-{"lukas-reineke/indent-blankline.nvim",
-config= function ()
+    {"lukas-reineke/indent-blankline.nvim",
+    config= function ()
 
-require("ibl").setup { indent = {char = {"▏"}} }
-end},
+        require("ibl").setup { indent = {char = {"▏"}} }
+    end},
     'mbbill/undotree',
     "nvim-lua/plenary.nvim",
-{ 'rose-pine/neovim', name = 'rose-pine' },
+    { 'rose-pine/neovim', name = 'rose-pine' },
     "preservim/tagbar",
 
-{
- "folke/trouble.nvim",
- dependencies = { "nvim-tree/nvim-web-devicons" },
-keys={
-    {"<leader>xq", "<cmd>TroubleToggle quickfix<cr>",desc="Toggle quickfix"},
-    {"<leader>tq", "<cmd>TroubleToggle<cr>",desc="Toggle trouble"}
-},
- opts = {
- },
-},
-  performance = {
-    rtp = {
-      paths = { "~/.config/nvim/snippets" }
+    {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        keys={
+            {"<leader>xq", "<cmd>TroubleToggle quickfix<cr>",desc="Toggle quickfix"},
+            {"<leader>tq", "<cmd>TroubleToggle<cr>",desc="Toggle trouble"}
+        },
+        opts = {
+        },
+    },
+    performance = {
+        rtp = {
+            paths = { "~/.config/nvim/snippets" }
+        }
     }
-  }
 })
 
 require('settings/remap') -- personal keymappings
