@@ -26,7 +26,6 @@ require("lazy").setup({
     "doums/darcula",
     "tpope/vim-fugitive",
     "tpope/vim-speeddating",
-    'mhinz/vim-startify',
     "ryanoasis/vim-devicons",
     {"lukas-reineke/indent-blankline.nvim",
     config= function ()
