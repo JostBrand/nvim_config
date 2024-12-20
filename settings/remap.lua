@@ -5,6 +5,9 @@ keyset('i', 'qw', '<Esc>', {noremap = true, silent = true})
 keyset('v', '<Tab>', '>gv', {noremap = true, silent = true})
 keyset('v', '<S-Tab>', '<gv', {noremap = true, silent = true})
 
+
+keyset('t', '<leader><Esc>', "<C-\\><C-n><C-w>h",{silent = true})
+
 -- Lsp keybindings
 keyset('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true, silent = true})
 keyset('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', {noremap = true, silent = true})
