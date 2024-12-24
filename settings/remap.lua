@@ -15,6 +15,7 @@ keyset('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true, silent = t
 keyset('n', 'gs', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap = true, silent = true})
 keyset('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', {noremap = true, silent = true})
 
+keyset('n', '<leader>p',":pu<CR>") 
 local builtin = require('telescope.builtin')
 keyset('n', '<C-f>',function () builtin.find_files({hidden=true}) end,{})
 keyset('n', '<leader>fc',function () builtin.find_files({
@@ -49,4 +50,7 @@ keyset('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent
 keyset('n', '<F6>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
 keyset('n', '<F7>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
 keyset('n', '<F8>', ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
-
+vim.keymap.set('n', '<F13>', require('smart-splits').move_cursor_left)
+vim.keymap.set('n', '<F14>', require('smart-splits').move_cursor_down)
+vim.keymap.set('n', '<F15>', require('smart-splits').move_cursor_up)
+vim.keymap.set('n', '<F16>', require('smart-splits').move_cursor_right)
