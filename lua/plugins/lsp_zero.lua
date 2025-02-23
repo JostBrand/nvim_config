@@ -1,7 +1,9 @@
 return {
     {'hrsh7th/nvim-cmp',dependencies={'L3MON4D3/LuaSnip',dependencies = { "rafamadriz/friendly-snippets" },build = "make install_jsregexp"}},
     "saadparwaiz1/cmp_luasnip",
-    'williamboman/mason.nvim',
+    {'williamboman/mason.nvim',opts = {
+        ensure_installed = {"mypy"}
+    }},
     {"windwp/nvim-autopairs",config = function ()
         local autopairs = require("nvim-autopairs")
         autopairs.setup({
@@ -44,7 +46,7 @@ return {
             require('mason').setup({})
 
 require('mason-lspconfig').setup({
-    ensure_installed = {'lua_ls', 'pyright', 'awk_ls', 'gopls', 'snyk_ls', 'jqls', 'clangd'},
+    ensure_installed = {'lua_ls', 'pyright', 'awk_ls', 'gopls',  'jqls', 'clangd'},
     handlers = {
         -- this first function is the "default handler"
         -- it applies to every language server without a "custom handler"
@@ -78,6 +80,30 @@ require('mason-lspconfig').setup({
             end
         end,
 
+        pyright = function()
+            require('lspconfig').pyright.setup({
+                on_attach = function(client, bufnr)
+                    -- Your custom on_attach function if needed
+                end,
+                  disableOrganizeImports = true,
+                before_init = function(_, config)
+                    local poetry_env = vim.fn.trim(vim.fn.system('poetry env info --path'))
+                    if poetry_env ~= '' then
+                        config.settings.python.pythonPath = poetry_env .. '/bin/python'
+                    end
+                end,
+                settings = {
+                    python = {
+                        analysis = {
+                            autoSearchPaths = true,
+                            useLibraryCodeForTypes = true,
+                            diagnosticMode = "workspace",
+                        },
+                    },
+                },
+            })
+        end,
+
         lua_ls = function()
             local function get_distro_name()
                 local file = io.open("/etc/os-release", "r")
@@ -103,10 +129,11 @@ require('mason-lspconfig').setup({
                 require('lspconfig').lua_ls.setup({})
             end
         end
+
     }
 })
 
-
+            require("lspconfig").ruff.setup({})
             lsp_zero.setup()
             -- You need to setup `cmp` after lsp-zero
             local cmp = require('cmp')

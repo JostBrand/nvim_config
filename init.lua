@@ -11,7 +11,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 config_path = vim.fn.stdpath('config')
-package.path = package.path .. ";" .. config_path .. "/?.lua;" .. config_path .. "/?/init.lua;" .. config_path .. "/plugins/?.lua;" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;" .. vim.fn.expand("$HOME").. "/.luarocks/share/lua/5.1/?.lua;"
+package.path = package.path ..
+    ";" ..
+    config_path ..
+    "/?.lua;" ..
+    config_path ..
+    "/?/init.lua;" ..
+    config_path ..
+    "/plugins/?.lua;" ..
+    vim.fn.expand("$HOME") ..
+    "/.luarocks/share/lua/5.1/?/init.lua;" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 vim.g.mapleader = " "
 function _G.check_back_space()
     local col = vim.fn.col('.') - 1
@@ -21,17 +30,18 @@ end
 vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
-    {import = "plugins"},
+    { import = "plugins" },
     "lambdalisue/suda.vim",
     "doums/darcula",
     "tpope/vim-fugitive",
     "tpope/vim-speeddating",
     "ryanoasis/vim-devicons",
-    {"lukas-reineke/indent-blankline.nvim",
-    config= function ()
-
-        require("ibl").setup { indent = {char = {"▏"}} }
-    end},
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        config = function()
+            require("ibl").setup { indent = { char = { "▏" } } }
+        end
+    },
     'mbbill/undotree',
     "nvim-lua/plenary.nvim",
     { 'rose-pine/neovim', name = 'rose-pine' },
@@ -40,9 +50,9 @@ require("lazy").setup({
     {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        keys={
-            {"<leader>xq", "<cmd>TroubleToggle quickfix<cr>",desc="Toggle quickfix"},
-            {"<leader>tq", "<cmd>TroubleToggle<cr>",desc="Toggle trouble"}
+        keys = {
+            { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Toggle quickfix" },
+            { "<leader>tq", "<cmd>TroubleToggle<cr>",          desc = "Toggle trouble" }
         },
         opts = {
         },
@@ -54,7 +64,7 @@ require("lazy").setup({
     }
 })
 
-require('settings/remap') -- personal keymappings
+require('settings/remap')   -- personal keymappings
 require('settings/general') -- settings
 
 vim.cmd('colorscheme rose-pine')
