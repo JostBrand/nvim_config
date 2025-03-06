@@ -46,7 +46,7 @@ return {
             require('mason').setup({})
 
 require('mason-lspconfig').setup({
-    ensure_installed = {'lua_ls', 'pyright', 'awk_ls', 'gopls',  'jqls', 'clangd'},
+    ensure_installed = {'lua_ls', 'pyright', "tinymist",'awk_ls', 'gopls',  'jqls', 'clangd'},
     handlers = {
         -- this first function is the "default handler"
         -- it applies to every language server without a "custom handler"
