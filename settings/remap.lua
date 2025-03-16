@@ -47,6 +47,7 @@ vim.cmd [[
 -- Map this function to a key for convenience, let's say <Leader>p
 keyset('n', '<Leader>br', ':call PythonifyList()<CR>', { noremap = true, silent = true })
 keyset('n', '<leader>fm', ':lua vim.lsp.buf.format()<CR>', { noremap = true, silent = true })
+keyset('n', '<leader>mf', ':lua MiniFiles.open()<CR>', { noremap = true, silent = true })
 
 keyset('n', '<C-b>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 keyset('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
