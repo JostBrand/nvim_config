@@ -1,5 +1,6 @@
 local keyset = vim.keymap.set
 keyset('i', 'qw', '<Esc>', { noremap = true, silent = true })
+keyset('i', 'jj', '<Esc>', { noremap = true, silent = true })
 
 -- Visual mode mapping for indenting using Tab and shift tab
 keyset('v', '<Tab>', '>gv', { noremap = true, silent = true })
@@ -27,6 +28,15 @@ end, {})
 keyset('n', '<leader>fg', builtin.live_grep, {})
 keyset('n', '<leader>fb', builtin.buffers, {})
 keyset('n', '<leader>fh', builtin.help_tags, {})
+keyset('n', '<leader>fr', builtin.resume, {})
+keyset('n', '<leader>ft', builtin.treesitter, {})
+keyset('n', '<leader>fs', builtin.grep_string, {})
+
+
+keyset('n', '<leader>gb', builtin.git_branches, {})
+keyset('n', '<leader>gc', builtin.git_commits, {})
+keyset('n', '<leader>gs', builtin.git_status, {})
+
 keyset('v', 'J', ":m '>+1<CR>gv=gv") -- shift lines in visual
 keyset('v', 'K', ":m '<-2<CR>gv=gv")
 keyset('n', '<C-d>', "<C-d>zz")      -- keep jumps centered
@@ -43,6 +53,8 @@ vim.cmd [[
     :s/[ ,]\+/", "/g
     endfunction
     ]]
+
+
 
 -- Map this function to a key for convenience, let's say <Leader>p
 keyset('n', '<Leader>br', ':call PythonifyList()<CR>', { noremap = true, silent = true })

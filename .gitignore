@@ -1,2 +1,6 @@
 lazy-lock.json
 test.py
+*.tmp
+*.vim
+*.pyc
+
