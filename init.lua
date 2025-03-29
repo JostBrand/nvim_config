@@ -10,7 +10,7 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
-config_path = vim.fn.stdpath('config')
+local config_path = vim.fn.stdpath('config')
 package.path = package.path ..
     ";" ..
     config_path ..
@@ -50,9 +50,9 @@ require("lazy").setup({
     {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
+        cmd = "Trouble",
         keys = {
-            { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Toggle quickfix" },
-            { "<leader>tq", "<cmd>TroubleToggle<cr>",          desc = "Toggle trouble" }
+            { "<leader>tq", "<cmd>Trouble diagnostics toggle<cr>", desc = "Toggle diagnostics" },
         },
         opts = {
         },
@@ -66,5 +66,4 @@ require("lazy").setup({
 
 require('settings/remap')   -- personal keymappings
 require('settings/general') -- settings
-
 vim.cmd('colorscheme rose-pine')

@@ -61,6 +61,11 @@ keyset('n', '<Leader>br', ':call PythonifyList()<CR>', { noremap = true, silent 
 keyset('n', '<leader>fm', ':lua vim.lsp.buf.format()<CR>', { noremap = true, silent = true })
 keyset('n', '<leader>mf', ':lua MiniFiles.open()<CR>', { noremap = true, silent = true })
 
+
+--- Obsidian keybindings
+keyset('n', '<leader>oo', ':ObsidianQuickSwitch<cr>', { noremap = true, silent = true })
+
+
 keyset('n', '<C-b>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 keyset('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
 keyset('n', '<F6>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })

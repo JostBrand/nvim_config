@@ -1,5 +1,8 @@
 return {
-    {'hrsh7th/nvim-cmp',dependencies={'L3MON4D3/LuaSnip',dependencies = { "rafamadriz/friendly-snippets" },build = "make install_jsregexp"}},
+    {'hrsh7th/nvim-cmp',
+    dependencies={'L3MON4D3/LuaSnip', "Yu-Leo/cmp-go-pkgs",
+    dependencies = { "rafamadriz/friendly-snippets" },build = "make install_jsregexp"}
+    },
     "saadparwaiz1/cmp_luasnip",
     {'williamboman/mason.nvim',opts = {
         ensure_installed = {"mypy"}
@@ -45,93 +48,93 @@ return {
 
             require('mason').setup({})
 
-require('mason-lspconfig').setup({
-    ensure_installed = {'lua_ls', 'pyright', "tinymist",'awk_ls', 'gopls',  'jqls', 'clangd'},
-    handlers = {
-        -- this first function is the "default handler"
-        -- it applies to every language server without a "custom handler"
-        function(server_name)
-            require('lspconfig')[server_name].setup({})
-        end,
+            require('mason-lspconfig').setup({
+                ensure_installed = {'lua_ls', 'pyright', "tinymist",'awk_ls', 'gopls',  'jqls', 'clangd'},
+                handlers = {
+                    -- this first function is the "default handler"
+                    -- it applies to every language server without a "custom handler"
+                    function(server_name)
+                        require('lspconfig')[server_name].setup({})
+                    end,
 
-        clangd = function()
-            local function get_distro_name()
-                local file = io.open("/etc/os-release", "r")
-                if not file then return nil end
+                    clangd = function()
+                        local function get_distro_name()
+                            local file = io.open("/etc/os-release", "r")
+                            if not file then return nil end
 
-                for line in file:lines() do
-                    if line:match("^NAME=") then
-                        file:close()
-                        return line:gsub('NAME=', ''):gsub('"', '')
+                            for line in file:lines() do
+                                if line:match("^NAME=") then
+                                    file:close()
+                                    return line:gsub('NAME=', ''):gsub('"', '')
+                                end
+                            end
+
+                            file:close()
+                            return nil
+                        end
+
+                        local distro_name = get_distro_name()
+                        if distro_name and string.find(string.lower(distro_name), string.lower("nixos")) then
+                            require('lspconfig').clangd.setup({
+                                cmd = {"/home/jost/.nix-profile/bin/clangd"}
+                            })
+                        else
+                            require('lspconfig').clangd.setup({})
+                        end
+                    end,
+
+                    pyright = function()
+                        require('lspconfig').pyright.setup({
+                            on_attach = function(client, bufnr)
+                                -- Your custom on_attach function if needed
+                            end,
+                            disableOrganizeImports = true,
+                            before_init = function(_, config)
+                                local poetry_env = vim.fn.trim(vim.fn.system('poetry env info --path'))
+                                if poetry_env ~= '' then
+                                    config.settings.python.pythonPath = poetry_env .. '/bin/python'
+                                end
+                            end,
+                            settings = {
+                                python = {
+                                    analysis = {
+                                        autoSearchPaths = true,
+                                        useLibraryCodeForTypes = true,
+                                        diagnosticMode = "workspace",
+                                    },
+                                },
+                            },
+                        })
+                    end,
+
+                    lua_ls = function()
+                        local function get_distro_name()
+                            local file = io.open("/etc/os-release", "r")
+                            if not file then return nil end
+
+                            for line in file:lines() do
+                                if line:match("^NAME=") then
+                                    file:close()
+                                    return line:gsub('NAME=', ''):gsub('"', '')
+                                end
+                            end
+
+                            file:close()
+                            return nil
+                        end
+
+                        local distro_name = get_distro_name()
+                        if distro_name and string.find(string.lower(distro_name), string.lower("nixos")) then
+                            require('lspconfig').lua_ls.setup({
+                                cmd = {"/home/jost/.nix-profile/bin/lua-language-server"}
+                            })
+                        else
+                            require('lspconfig').lua_ls.setup({})
+                        end
                     end
-                end
 
-                file:close()
-                return nil
-            end
-
-            local distro_name = get_distro_name()
-            if distro_name and string.find(string.lower(distro_name), string.lower("nixos")) then
-                require('lspconfig').clangd.setup({
-                    cmd = {"/home/jost/.nix-profile/bin/clangd"}
-                })
-            else
-                require('lspconfig').clangd.setup({})
-            end
-        end,
-
-        pyright = function()
-            require('lspconfig').pyright.setup({
-                on_attach = function(client, bufnr)
-                    -- Your custom on_attach function if needed
-                end,
-                  disableOrganizeImports = true,
-                before_init = function(_, config)
-                    local poetry_env = vim.fn.trim(vim.fn.system('poetry env info --path'))
-                    if poetry_env ~= '' then
-                        config.settings.python.pythonPath = poetry_env .. '/bin/python'
-                    end
-                end,
-                settings = {
-                    python = {
-                        analysis = {
-                            autoSearchPaths = true,
-                            useLibraryCodeForTypes = true,
-                            diagnosticMode = "workspace",
-                        },
-                    },
-                },
+                }
             })
-        end,
-
-        lua_ls = function()
-            local function get_distro_name()
-                local file = io.open("/etc/os-release", "r")
-                if not file then return nil end
-
-                for line in file:lines() do
-                    if line:match("^NAME=") then
-                        file:close()
-                        return line:gsub('NAME=', ''):gsub('"', '')
-                    end
-                end
-
-                file:close()
-                return nil
-            end
-
-            local distro_name = get_distro_name()
-            if distro_name and string.find(string.lower(distro_name), string.lower("nixos")) then
-                require('lspconfig').lua_ls.setup({
-                    cmd = {"/home/jost/.nix-profile/bin/lua-language-server"}
-                })
-            else
-                require('lspconfig').lua_ls.setup({})
-            end
-        end
-
-    }
-})
 
             require("lspconfig").ruff.setup({})
             lsp_zero.setup()
@@ -169,6 +172,7 @@ require('mason-lspconfig').setup({
                     {name = 'buffer'},
                     {name = 'path'},
                     {name = 'luasnip'},
+                    {name = 'go_pkgs'},
                 },
                 snippet = {
                     -- REQUIRED - you must specify a snippet engine

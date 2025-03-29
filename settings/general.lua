@@ -32,6 +32,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
 vim.opt.smartcase = true
+vim.opt.conceallevel = 2
 
 
 vim.opt.clipboard = "unnamedplus"
