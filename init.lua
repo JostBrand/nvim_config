@@ -31,32 +31,6 @@ vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
     { import = "plugins" },
-    "lambdalisue/suda.vim",
-    "doums/darcula",
-    "tpope/vim-fugitive",
-    "tpope/vim-speeddating",
-    "ryanoasis/vim-devicons",
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        config = function()
-            require("ibl").setup { indent = { char = { "▏" } } }
-        end
-    },
-    'mbbill/undotree',
-    "nvim-lua/plenary.nvim",
-    { 'rose-pine/neovim', name = 'rose-pine' },
-    "preservim/tagbar",
-
-    {
-        "folke/trouble.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        cmd = "Trouble",
-        keys = {
-            { "<leader>tq", "<cmd>Trouble diagnostics toggle<cr>", desc = "Toggle diagnostics" },
-        },
-        opts = {
-        },
-    },
     performance = {
         rtp = {
             paths = { "~/.config/nvim/snippets" }
