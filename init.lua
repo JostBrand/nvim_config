@@ -30,11 +30,13 @@ end
 vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
-    { import = "plugins" },
-    performance = {
-        rtp = {
-            paths = { "~/.config/nvim/snippets" }
-        }
+    spec = {{ import = "plugins" },
+    -- performance = {
+    --     rtp = {
+    --         paths = { "~/.config/nvim/snippets" }
+    --     }
+    -- }
+    -- install = {colorscheme = "rose-pine"}
     }
 })
 
