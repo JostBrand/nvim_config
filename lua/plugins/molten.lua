@@ -1,41 +1,33 @@
 return {
-    
--- {
---     "SUSTech-data/neopyter",
---     ---@type neopyter.Option
---     opts = {
---         mode="direct",
---         remote_address = "127.0.0.1:9001",
---         file_pattern = { "*.ju.*" },
---         on_attach = function(buf)
---     local function map(mode, lhs, rhs, desc)
---         vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = buf })
---     end
---     -- same, recommend the former
---     map("n", "<C-Enter>", "<cmd>Neopyter execute notebook:run-cell<cr>", "run selected")
---     -- map("n", "<C-Enter>", "<cmd>Neopyter run current<cr>", "run selected")
---
---     -- same, recommend the former
---     map("n", "<space>X", "<cmd>Neopyter execute notebook:run-all-above<cr>", "run all above cell")
---     -- map("n", "<space>X", "<cmd>Neopyter run allAbove<cr>", "run all above cell")
---
---     -- same, recommend the former, but the latter is silent
---     map("n", "<space>nt", "<cmd>Neopyter execute kernelmenu:restart<cr>", "restart kernel")
---     -- map("n", "<space>nt", "<cmd>Neopyter kernel restart<cr>", "restart kernel")
---
---     map("n", "<S-Enter>", "<cmd>Neopyter execute runmenu:run<cr>", "run selected and select next")
---     map("n", "<M-Enter>", "<cmd>Neopyter execute run-cell-and-insert-below<cr>", "run selected and insert below")
---
---     map("n", "<F5>", "<cmd>Neopyter execute notebook:restart-run-all<cr>", "restart kernel and run all")
---         end,
---         highlight = {
---             enable = true,
---             shortsighted = false,
---         },
---         parser = {
---             -- trim leading/tailing whitespace of cell
---             trim_whitespace = false,
---         }
---     },
--- },
+    {
+        "benlubas/molten-nvim",
+        version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+        dependencies = { "3rd/image.nvim" },
+        build = ":UpdateRemotePlugins",
+        init = function()
+            -- these are examples, not defaults. Please see the readme
+            -- vim.g.molten_image_provider = "image.nvim"
+            -- vim.g.molten_output_win_max_height = 20
+        end,
+    },
+    {
+        -- see the image.nvim readme for more information about configuring this plugin
+        "3rd/image.nvim",
+        opts = {
+            backend = "kitty", -- whatever backend you would like to use
+            max_width = 100,
+            max_height = 12,
+            max_height_window_percentage = math.huge,
+            max_width_window_percentage = math.huge,
+            window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+            window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+        },
+    },
+      {
+    "quarto-dev/quarto-nvim",
+    dependencies = {
+      "jmbuhr/otter.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+  }
 }

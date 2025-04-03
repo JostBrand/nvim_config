@@ -1,13 +1,11 @@
 return {
     {"mfussenegger/nvim-dap",dependencies={
-    "folke/neodev.nvim",
     "nvim-neotest/nvim-nio",
     "mfussenegger/nvim-dap-python",
 	"rcarriga/nvim-dap-ui"
 },
     config = function ()
         
-require("neodev").setup({library = { plugins = { "nvim-dap-ui" }, types = true }})
 require("dapui").setup()
 require('dap-python').setup()
 

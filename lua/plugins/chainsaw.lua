@@ -5,6 +5,5 @@ return {
             marker = "🪚",
             beepEmojis = { "🔵", "🟩", "⭐", "⭕", "💜", "🔲" },
         }
-        -- TODO: add keybindings
     end
 }
