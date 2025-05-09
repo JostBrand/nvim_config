@@ -44,7 +44,10 @@ keyset('n', '<C-u>', "<C-u>zz")
 keyset('n', 'n', "nzzzn")
 keyset('n', 'N', "Nzzzn")
 
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undodir"
 vim.g.undotree_SetFocusWhenToggle = 1
+
 keyset('n', '<leader>u', vim.cmd.UndotreeToggle)
 
 vim.cmd [[
