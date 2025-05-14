@@ -37,8 +37,20 @@ vim.opt.conceallevel = 2
 
 vim.opt.clipboard = "unnamedplus"
 
+local augroup = vim.api.nvim_create_augroup("PythonFormat", { clear = true })
 
-
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = augroup,
+  pattern = "*.py",
+  callback = function()
+    -- Use black
+    vim.lsp.buf.format { async = false }
+    -- If you prefer autopep8, use this instead:
+    -- vim.cmd("silent !autopep8 --in-place %")
+    -- If you prefer ruff, use this instead:
+    -- vim.cmd("silent !ruff format %")
+  end,
+})
 
 function _G.ReloadConfig()
     for name, _ in pairs(package.loaded) do
