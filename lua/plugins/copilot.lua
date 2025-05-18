@@ -12,55 +12,51 @@ return {
               keymap = {
                   accept = "<Tab>",
               }
-              
           },
       })
     end,
   },
-
-  {
+{
   "yetone/avante.nvim",
   event = "VeryLazy",
-  version = false, -- Never set this value to "*"! Never!
+  version = false,
   opts = {
-      provider = "gemini",
-      gemini = {
-          model = "gemini-2.0-flash"
-
-      };
+    provider = "openrouter",
+    vendors = {
+      openrouter = {
+        __inherited_from = 'openai',
+        endpoint = 'https://openrouter.ai/api/v1',
+        api_key_name = 'OPENROUTER_API_KEY',
+        model="",
+      },
+    },
   },
   build = "make",
-  -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
-    --- The below dependencies are optional,
-    "echasnovski/mini.pick", -- for file_selector provider mini.pick
-    "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-    "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-    "ibhagwan/fzf-lua", -- for file_selector provider fzf
-    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+    "echasnovski/mini.pick",
+    "nvim-telescope/telescope.nvim",
+    "hrsh7th/nvim-cmp",
+    "ibhagwan/fzf-lua",
+    "nvim-tree/nvim-web-devicons",
     {
-      -- support for image pasting
       "HakonHarnes/img-clip.nvim",
       event = "VeryLazy",
       opts = {
-        -- recommended settings
         default = {
           embed_image_as_base64 = false,
           prompt_for_file_name = false,
           drag_and_drop = {
             insert_mode = true,
           },
-          -- required for Windows users
           use_absolute_path = true,
         },
       },
     },
     {
-      -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
         file_types = { "markdown", "Avante" },
@@ -68,5 +64,41 @@ return {
       ft = { "markdown", "Avante" },
     },
   },
+  config = function(_, opts)
+    local api_key_loader = function()
+      local rbw_item_name = "openrouter"
+      local env_var_name = "OPENROUTER_API_KEY"
+
+      vim.notify("Attempting to load " .. env_var_name .. " from rbw...", vim.log.levels.INFO)
+
+      vim.fn.jobstart({ "rbw", "get", rbw_item_name }, {
+        on_stdout = function(_, data)
+          if data and #data > 0 and data[1] ~= "" then
+            local api_key = vim.trim(data[1])
+            vim.env[env_var_name] = api_key
+            vim.notify(env_var_name .. " loaded successfully from rbw!", vim.log.levels.INFO)
+          else
+            vim.notify("Failed to retrieve " .. env_var_name .. " from rbw or key is empty.", vim.log.levels.ERROR)
+          end
+        end,
+        on_stderr = function(_, data)
+          if data and #data > 0 and data[1] ~= "" then
+            local error_message = table.concat(data, "\\n")
+            vim.notify("Error retrieving " .. env_var_name .. " from rbw: " .. error_message, vim.log.levels.ERROR)
+          else
+            vim.notify("Error retrieving " .. env_var_name .. " from rbw (no stderr output).", vim.log.levels.ERROR)
+          end
+        end,
+        stdout_buffered = true,
+      })
+      require("avante.api").ask()
+    end
+
+    require("avante_lib").load()
+    require("avante").setup(opts)
+
+    vim.keymap.set('n', '<leader>aa', api_key_loader, { desc = 'Load OpenRouter API Key from rbw for Avante' })
+  end,
 }
-}
+  }
+

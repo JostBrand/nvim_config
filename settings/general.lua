@@ -33,7 +33,7 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "120"
 vim.opt.smartcase = true
 vim.opt.conceallevel = 2
-
+vim.opt.autochdir = true 
 
 vim.opt.clipboard = "unnamedplus"
 
