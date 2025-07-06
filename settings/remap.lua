@@ -81,7 +81,7 @@ vim.keymap.set('n', '<F16>', require('smart-splits').move_cursor_right)
 
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.py" }, -- Only run for Python files
+    pattern = { "*.py" },                     -- Only run for Python files
     callback = function()
         vim.lsp.buf.format({ async = false }) -- Format synchronously
     end,
