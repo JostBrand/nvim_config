@@ -22,12 +22,12 @@ return {
         version = false,
         opts = {
             provider = "openrouter",
-            providers = { 
+            providers = {
                 openrouter = {
                     __inherited_from = 'openai',
                     endpoint = 'https://openrouter.ai/api/v1',
                     api_key_name = 'OPENROUTER_API_KEY',
-                    model = "anthropic/claude-sonnet-4",
+                    model = "qwen/qwen3-coder",
                 },
             },
         },
@@ -65,19 +65,14 @@ return {
             },
         },
         config = function(_, opts)
-            -- Load API key from rbw with proper error handling
-            local function load_api_key_from_rbw(callback)
-                local rbw_item_name = "openrouter"
-                local env_var_name = "OPENROUTER_API_KEY"
-                
-                -- Check if key is already loaded
+            local function load_api_key_from_rbw(rbw_item_name, env_var_name, callback)
                 if vim.env[env_var_name] and vim.env[env_var_name] ~= "" then
                     vim.notify(env_var_name .. " already loaded from environment", vim.log.levels.INFO)
                     if callback then callback(true) end
                     return
                 end
 
-                -- vim.notify("Loading " .. env_var_name .. " from rbw...", vim.log.levels.INFO)
+                vim.notify("Loading " .. env_var_name .. " from rbw...", vim.log.levels.INFO)
 
                 local stdout_data = {}
                 local stderr_data = {}
@@ -106,7 +101,7 @@ return {
                             local api_key = vim.trim(table.concat(stdout_data, ""))
                             if api_key and api_key ~= "" then
                                 vim.env[env_var_name] = api_key
-                                -- vim.notify(env_var_name .. " loaded successfully from rbw!", vim.log.levels.INFO)
+                                vim.notify(env_var_name .. " loaded successfully from rbw!", vim.log.levels.INFO)
                                 if callback then callback(true) end
                             else
                                 vim.notify("Retrieved empty API key from rbw", vim.log.levels.ERROR)
@@ -127,7 +122,6 @@ return {
                     stderr_buffered = true,
                 })
 
-                -- Handle case where jobstart fails
                 if job_id == 0 then
                     vim.notify("Invalid command: rbw get " .. rbw_item_name, vim.log.levels.ERROR)
                     if callback then callback(false) end
@@ -136,22 +130,43 @@ return {
                     if callback then callback(false) end
                 end
             end
-
-            -- Function to load key and then call avante
-            local function load_key_and_ask()
-                load_api_key_from_rbw(function(success)
-                    if success then
-                        -- Small delay to ensure the environment variable is properly set
-                        vim.defer_fn(function()
-                            local ok, avante_api = pcall(require, "avante.api")
-                            if ok and avante_api.ask then
-                                avante_api.ask()
-                            else
-                                vim.notify("Failed to load avante.api or ask function not available", vim.log.levels.ERROR)
-                            end
-                        end, 100)
+            
+            -- This function now correctly loads all keys and then runs the callback
+            local function load_all_keys(callback)
+                local loaded_keys = 0
+                local total_keys = 2
+                local success_count = 0
+                
+                local function check_done(success)
+                    if success then success_count = success_count + 1 end
+                    loaded_keys = loaded_keys + 1
+                    if loaded_keys == total_keys then
+                        callback(success_count == total_keys)
+                    end
+                end
+                
+                load_api_key_from_rbw("openrouter", "OPENROUTER_API_KEY", check_done)
+                load_api_key_from_rbw("tavily", "TAVILY_API_KEY", check_done)
+            end
+            
+            local function ask_avante()
+                vim.defer_fn(function()
+                    local ok, avante_api = pcall(require, "avante.api")
+                    if ok and avante_api.ask then
+                        avante_api.ask()
                     else
-                        vim.notify("Cannot proceed with Avante: API key loading failed", vim.log.levels.ERROR)
+                        vim.notify("Failed to load avante.api or ask function not available", vim.log.levels.ERROR)
+                    end
+                end, 100)
+            end
+            
+            local function load_keys_and_run_avante()
+                load_all_keys(function(success)
+                    if success then
+                        vim.notify("All API keys loaded successfully!", vim.log.levels.INFO)
+                        ask_avante()
+                    else
+                        vim.notify("Failed to load all API keys. Avante may not function correctly.", vim.log.levels.ERROR)
                     end
                 end)
             end
@@ -159,20 +174,8 @@ return {
             require("avante_lib").load()
             require("avante").setup(opts)
 
-            -- Create keymaps
-            vim.keymap.set('n', '<leader>aa', load_key_and_ask, { 
-                desc = 'Load OpenRouter API Key from rbw and ask Avante' 
-            })
-            
-            -- Auto-load key on first use if not already loaded
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "AvanteAskPre",
-                callback = function()
-                    if not vim.env.OPENROUTER_API_KEY or vim.env.OPENROUTER_API_KEY == "" then
-                        vim.notify("API key not found, loading from rbw...", vim.log.levels.INFO)
-                        load_api_key_from_rbw()
-                    end
-                end,
+            vim.keymap.set('n', '<leader>aa', load_keys_and_run_avante, {
+                desc = 'Load all API Keys from rbw and ask Avante'
             })
         end,
     }
