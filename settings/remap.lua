@@ -1,5 +1,4 @@
 local keyset = vim.keymap.set
-keyset('i', 'qw', '<Esc>', { noremap = true, silent = true })
 keyset('i', 'jj', '<Esc>', { noremap = true, silent = true })
 
 -- Visual mode mapping for indenting using Tab and shift tab
