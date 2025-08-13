@@ -31,10 +31,13 @@ return {
     -- Required.
     "nvim-lua/plenary.nvim",
 
-    -- see below for full list of optional dependencies ðŸ‘‡
+    -- see below for full list of optional dependencies í ½í±‡
   },
   opts = {
     workspaces = workspaces,
-    -- see below for full list of options ðŸ‘‡
+    ui = {
+      enable = false,  -- disable all additional syntax features
+    },
+    -- see below for full list of options í ½í±‡
   },
 }
