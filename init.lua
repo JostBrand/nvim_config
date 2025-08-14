@@ -30,14 +30,8 @@ end
 vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
-    spec = {{ import = "plugins" },
-    -- performance = {
-    --     rtp = {
-    --         paths = { "~/.config/nvim/snippets" }
-    --     }
-    -- }
-    -- install = {colorscheme = "rose-pine"}
-    }
+    spec = {{ import = "plugins" }},
+    lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })
 
 require('settings/remap')   -- personal keymappings
