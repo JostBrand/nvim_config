@@ -21,13 +21,19 @@ return {
         event = "VeryLazy",
         version = false,
         opts = {
-            provider = "openrouter",
+            provider = "perplexity",
             providers = {
                 openrouter = {
                     __inherited_from = 'openai',
                     endpoint = 'https://openrouter.ai/api/v1',
                     api_key_name = 'OPENROUTER_API_KEY',
                     model = "qwen/qwen3-coder",
+                },
+                perplexity = {
+                    __inherited_from = "openai",
+                    api_key_name = "PERPLEXITY_API_KEY",
+                    endpoint = "https://api.perplexity.ai",
+                    model = "sonar-reasoning-pro",
                 },
             },
         },
@@ -62,7 +68,7 @@ return {
 
                 local stdout_data = {}
                 local stderr_data = {}
-                
+
                 local job_id = vim.fn.jobstart({ "rbw", "get", rbw_item_name }, {
                     on_stdout = function(_, data)
                         if data then
@@ -116,13 +122,13 @@ return {
                     if callback then callback(false) end
                 end
             end
-            
+
             -- This function now correctly loads all keys and then runs the callback
             local function load_all_keys(callback)
                 local loaded_keys = 0
                 local total_keys = 2
                 local success_count = 0
-                
+
                 local function check_done(success)
                     if success then success_count = success_count + 1 end
                     loaded_keys = loaded_keys + 1
@@ -130,11 +136,12 @@ return {
                         callback(success_count == total_keys)
                     end
                 end
-                
+
+                load_api_key_from_rbw("perplexity", "PERPLEXITY_API_KEY", check_done)
                 load_api_key_from_rbw("openrouter", "OPENROUTER_API_KEY", check_done)
                 load_api_key_from_rbw("tavily", "TAVILY_API_KEY", check_done)
             end
-            
+
             local function ask_avante()
                 vim.defer_fn(function()
                     local ok, avante_api = pcall(require, "avante.api")
@@ -145,7 +152,7 @@ return {
                     end
                 end, 100)
             end
-            
+
             local function load_keys_and_run_avante()
                 load_all_keys(function(success)
                     if success then
