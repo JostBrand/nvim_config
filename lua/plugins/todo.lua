@@ -37,10 +37,6 @@ return {
           before = "",
           keyword = "wide",          -- "fg", "bg", "wide", "wide_bg", "wide_fg", or ""
           after = "fg",
-          -- This pattern highlights keywords like TODO: or TODO followed by space.
-          -- Using a Vim regex inside a Lua long string avoids double escaping.
-          -- Default is fine, but if you want to keep explicit:
-          pattern = [[\v.*<(KEYWORDS)($|:|\s)]],
           comments_only = true,
           max_line_len = 400,
           exclude = {},
