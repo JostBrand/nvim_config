@@ -16,6 +16,7 @@ keyset('n', 'gs', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true,
 keyset('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
 
 keyset('n', '<leader>p', ":pu<CR>")
+keyset('n', '<leader>ca', ":lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
 local builtin = require('telescope.builtin')
 keyset('n', '<C-f>', function() builtin.find_files({ hidden = true }) end, {})
 keyset('n', '<leader>fc', function()

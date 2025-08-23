@@ -21,7 +21,7 @@ return {
         event = "VeryLazy",
         version = false,
         opts = {
-            provider = "perplexity",
+            provider = "openrouter",
             providers = {
                 openrouter = {
                     __inherited_from = 'openai',
