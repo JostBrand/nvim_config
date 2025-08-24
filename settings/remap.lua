@@ -14,6 +14,9 @@ keyset('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, sil
 keyset('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
 keyset('n', 'gs', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent = true })
 keyset('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
+keyset('n', '<leader><leader>x', '<cmd>source %<CR>')
+keyset('n', '<leader>x', ':.lua <CR>')
+keyset('v', '<leader>x', ':lua<CR>')
 
 keyset('n', '<leader>p', ":pu<CR>")
 keyset('n', '<leader>ca', ":lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
@@ -74,15 +77,9 @@ keyset('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent
 keyset('n', '<F6>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
 keyset('n', '<F7>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
 keyset('n', '<F8>', ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F13>', require('smart-splits').move_cursor_left)
-vim.keymap.set('n', '<F14>', require('smart-splits').move_cursor_down)
-vim.keymap.set('n', '<F15>', require('smart-splits').move_cursor_up)
-vim.keymap.set('n', '<F16>', require('smart-splits').move_cursor_right)
+keyset('n', '<F13>', require('smart-splits').move_cursor_left)
+keyset('n', '<F14>', require('smart-splits').move_cursor_down)
+keyset('n', '<F15>', require('smart-splits').move_cursor_up)
+keyset('n', '<F16>', require('smart-splits').move_cursor_right)
 
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.py" },                     -- Only run for Python files
-    callback = function()
-        vim.lsp.buf.format({ async = false }) -- Format synchronously
-    end,
-})

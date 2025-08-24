@@ -1,7 +1,7 @@
 vim.api.nvim_set_hl(0, 'CmpItemAbbrDeprecated', { bg='NONE', strikethrough=true, fg='#808080' })
 -- blue
 vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { bg='NONE', fg='#569CD6' })
-vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { link='CmpIntemAbbrMatch' })
+vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { link='CmpItemAbbrMatch' })
 -- light blue
 vim.api.nvim_set_hl(0, 'CmpItemKindVariable', { bg='NONE', fg='#9CDCFE' })
 vim.api.nvim_set_hl(0, 'CmpItemKindInterface', { link='CmpItemKindVariable' })
@@ -33,24 +33,30 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "120"
 vim.opt.smartcase = true
 vim.opt.conceallevel = 2
-vim.opt.autochdir = true 
+vim.opt.autochdir = true
+
+-- Native indentation guides (replaces indent-blankline.nvim)
+vim.opt.list = true
+vim.opt.listchars = { 
+    tab = '▏ ', 
+    leadmultispace = '▏   ',
+    trail = '·',
+    nbsp = '⍽'
+} 
 
 vim.opt.clipboard = "unnamedplus"
 
 local augroup = vim.api.nvim_create_augroup("PythonFormat", { clear = true })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup,
-  pattern = "*.py",
+  pattern = "*",
   callback = function()
-    -- Use black
-    vim.lsp.buf.format { async = false }
-    -- If you prefer autopep8, use this instead:
-    -- vim.cmd("silent !autopep8 --in-place %")
-    -- If you prefer ruff, use this instead:
-    -- vim.cmd("silent !ruff format %")
+    vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
   end,
 })
+
+-- Python formatting now handled by conform.nvim
 
 function _G.ReloadConfig()
     for name, _ in pairs(package.loaded) do
