@@ -3,29 +3,27 @@ return {
     {
         'williamboman/mason.nvim',
         opts = {
-            ensure_installed = {"mypy"}
+            ensure_installed = { "mypy" }
         }
     },
     {
         'williamboman/mason-lspconfig.nvim',
-        dependencies = {'williamboman/mason.nvim'},
+        dependencies = { 'williamboman/mason.nvim' },
         config = function()
             require('mason').setup({})
             require('mason-lspconfig').setup({
                 automatic_installation = true,
-                ensure_installed = {'nil_ls','lua_ls', 'pyright', "tinymist",'awk_ls', 'gopls',  'jqls', 'clangd'},
+                ensure_installed = { 'nil_ls', 'lua_ls', 'pyright', "tinymist", 'awk_ls', 'gopls', 'jqls', 'clangd' },
             })
         end
     },
-    
     -- LSP Configuration
     {
         'neovim/nvim-lspconfig',
-        dependencies = {'williamboman/mason-lspconfig.nvim'},
+        dependencies = { 'williamboman/mason-lspconfig.nvim' },
         config = function()
             local lspconfig = require('lspconfig')
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            
             local function get_distro_name()
                 local file = io.open("/etc/os-release", "r")
                 if not file then return nil end
@@ -53,7 +51,7 @@ return {
             end
 
             -- Default setup for most servers
-            local servers = {'awk_ls', 'gopls', 'jqls', 'tinymist'}
+            local servers = { 'awk_ls', 'gopls', 'jqls', 'tinymist' }
             for _, server in ipairs(servers) do
                 lspconfig[server].setup({
                     capabilities = capabilities,
@@ -67,20 +65,20 @@ return {
 
             -- Clangd setup
             lspconfig.clangd.setup({
-                cmd = is_nixos and {"/home/jost/.nix-profile/bin/clangd"} or {"clangd"},
+                cmd = is_nixos and { "/home/jost/.nix-profile/bin/clangd" } or { "clangd" },
                 capabilities = capabilities,
                 on_attach = on_attach,
             })
 
             -- Lua LSP setup
             lspconfig.lua_ls.setup({
-                cmd = is_nixos and {"/home/jost/.nix-profile/bin/lua-language-server"} or {"lua-language-server"},
+                cmd = is_nixos and { "/home/jost/.nix-profile/bin/lua-language-server" } or { "lua-language-server" },
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {
                     Lua = {
                         runtime = { version = 'LuaJIT' },
-                        diagnostics = { globals = {'vim'} },
+                        diagnostics = { globals = { 'vim' } },
                         workspace = {
                             library = vim.api.nvim_get_runtime_file("", true),
                             checkThirdParty = false,
@@ -92,7 +90,7 @@ return {
 
             -- Nil (Nix) LSP setup
             lspconfig.nil_ls.setup({
-                cmd = is_nixos and {"/home/jost/.nix-profile/bin/nil"} or {"nil"},
+                cmd = is_nixos and { "/home/jost/.nix-profile/bin/nil" } or { "nil" },
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {
@@ -157,7 +155,6 @@ return {
             local cmp = require('cmp')
             local lspkind = require('lspkind')
             local luasnip = require("luasnip")
-            
             -- LuaSnip configuration
             luasnip.config.set_config({
                 history = true,
@@ -166,16 +163,16 @@ return {
             luasnip.log.set_loglevel("info")
             require("luasnip.loaders.from_vscode").lazy_load()
             require("luasnip.loaders.from_lua").lazy_load()
-            require("luasnip.loaders.from_lua").load{paths = {"~/.config/nvim/snippets/lua_snippets"}}
-            require("luasnip.loaders.from_vscode").load{paths = {"~/.config/nvim/snippets/vscode_snippets"}}
+            require("luasnip.loaders.from_lua").load { paths = { "~/.config/nvim/snippets/lua_snippets" } }
+            require("luasnip.loaders.from_vscode").load { paths = { "~/.config/nvim/snippets/vscode_snippets" } }
 
             cmp.setup({
                 sources = {
-                    {name = 'nvim_lsp'},
-                    {name = 'buffer'},
-                    {name = 'path'},
-                    {name = 'luasnip'},
-                    {name = 'go_pkgs'},
+                    { name = 'nvim_lsp' },
+                    { name = 'buffer' },
+                    { name = 'path' },
+                    { name = 'luasnip' },
+                    { name = 'go_pkgs' },
                 },
                 snippet = {
                     expand = function(args)
@@ -187,7 +184,7 @@ return {
                     documentation = cmp.config.window.bordered(),
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ['<C-y>'] = cmp.mapping.confirm({select = false}),
+                    ['<C-y>'] = cmp.mapping.confirm({ select = false }),
                     ['<C-e>'] = cmp.mapping.close(),
                     ['<C-Space>'] = cmp.mapping.complete(),
                     ['<C-f>'] = cmp.mapping(function(fallback)
@@ -226,7 +223,7 @@ return {
             autopairs.setup({
                 fast_wrap = {
                     map = '<M-e>',
-                    chars = {'{', '[', '(', '"', "'"},
+                    chars = { '{', '[', '(', '"', "'" },
                     pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
                     offset = 0,
                     end_key = '$',
@@ -236,10 +233,10 @@ return {
                     highlight_grey = 'LineNr',
                 }
             })
-            
             local cmp_autopairs = require('nvim-autopairs.completion.cmp')
             local cmp = require('cmp')
             cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
         end
     },
 }
+

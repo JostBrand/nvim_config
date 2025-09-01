@@ -17,6 +17,26 @@ return {
         end,
     },
     {
+        "ravitemer/mcphub.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        build = 'bundled_build.lua',
+        config = function()
+            require("mcphub").setup({
+                port = 3000,
+                config = vim.fn.expand("~/.config/mcphub/servers.json"), -- Absolute path required
+                log = {
+                    level = vim.log.levels.WARN,
+                    to_file = true,
+                },
+                on_ready = function()
+                    vim.notify("MCP Hub is online!", vim.log.levels.INFO)
+                end
+            })
+        end,
+    },
+    {
         "yetone/avante.nvim",
         event = "VeryLazy",
         version = false,
@@ -27,15 +47,17 @@ return {
                     __inherited_from = 'openai',
                     endpoint = 'https://openrouter.ai/api/v1',
                     api_key_name = 'OPENROUTER_API_KEY',
-                    model = "qwen/qwen3-coder",
-                },
-                perplexity = {
-                    __inherited_from = "openai",
-                    api_key_name = "PERPLEXITY_API_KEY",
-                    endpoint = "https://api.perplexity.ai",
-                    model = "sonar-reasoning-pro",
+                    model = "x-ai/grok-code-fast-1",
                 },
             },
+            disabled_tools = {
+                "list_files", "search_files", "read_file",
+                "create_file", "rename_file", "delete_file",
+                "create_dir", "rename_dir", "delete_dir"
+            },
+            custom_tools = function()
+                return { require("mcphub.extensions.avante").mcp_tool() }
+            end,
         },
         build = "make",
         dependencies = {
@@ -48,6 +70,7 @@ return {
             "hrsh7th/nvim-cmp",
             "ibhagwan/fzf-lua",
             "nvim-tree/nvim-web-devicons",
+            "ravitemer/mcphub.nvim", -- Add mcphub as dependency
             {
                 'MeanderingProgrammer/render-markdown.nvim',
                 opts = {
@@ -118,15 +141,15 @@ return {
                     vim.notify("Invalid command: rbw get " .. rbw_item_name, vim.log.levels.ERROR)
                     if callback then callback(false) end
                 elseif job_id == -1 then
-                    vim.notify("rbw command not found. Please ensure rbw is installed and in PATH.", vim.log.levels.ERROR)
+                    vim.notify("rbw command not found. Please ensure rbw is installed and in PATH.", vim.log.levels
+                        .ERROR)
                     if callback then callback(false) end
                 end
             end
 
-            -- This function now correctly loads all keys and then runs the callback
             local function load_all_keys(callback)
                 local loaded_keys = 0
-                local total_keys = 2
+                local total_keys = 3 -- Updated to include tavily
                 local success_count = 0
 
                 local function check_done(success)
@@ -159,7 +182,8 @@ return {
                         vim.notify("All API keys loaded successfully!", vim.log.levels.INFO)
                         ask_avante()
                     else
-                        vim.notify("Failed to load all API keys. Avante may not function correctly.", vim.log.levels.ERROR)
+                        vim.notify("Failed to load all API keys. Avante may not function correctly.",
+                            vim.log.levels.ERROR)
                     end
                 end)
             end
@@ -169,6 +193,10 @@ return {
 
             vim.keymap.set('n', '<leader>aa', load_keys_and_run_avante, {
                 desc = 'Load all API Keys from rbw and ask Avante'
+            })
+            -- Add MCPHub keymap
+            vim.keymap.set('n', '<leader>mcp', ':MCPHub<CR>', {
+                desc = 'Open MCP Hub marketplace'
             })
         end,
     }
