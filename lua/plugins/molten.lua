@@ -2,7 +2,6 @@ return {
     {
         "benlubas/molten-nvim",
         version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
-        dependencies = { "3rd/image.nvim" },
         build = ":UpdateRemotePlugins",
         init = function()
             -- these are examples, not defaults. Please see the readme
@@ -23,11 +22,11 @@ return {
             window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
         },
     },
-      {
-    "quarto-dev/quarto-nvim",
-    dependencies = {
-      "jmbuhr/otter.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-  }
+    {
+        "quarto-dev/quarto-nvim",
+        dependencies = {
+            "jmbuhr/otter.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+    }
 }

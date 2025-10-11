@@ -22,7 +22,6 @@ return {
         'neovim/nvim-lspconfig',
         dependencies = { 'williamboman/mason-lspconfig.nvim' },
         config = function()
-            local lspconfig = require('lspconfig')
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             local function get_distro_name()
                 local file = io.open("/etc/os-release", "r")
@@ -53,10 +52,11 @@ return {
             -- Default setup for most servers
             local servers = { 'awk_ls', 'gopls', 'jqls', 'tinymist' }
             for _, server in ipairs(servers) do
-                lspconfig[server].setup({
+                vim.lsp.config(server, {
                     capabilities = capabilities,
                     on_attach = on_attach,
                 })
+                vim.lsp.enable(server)
             end
 
             -- Custom server configurations
@@ -64,14 +64,15 @@ return {
             local is_nixos = distro_name and string.find(string.lower(distro_name), string.lower("nixos"))
 
             -- Clangd setup
-            lspconfig.clangd.setup({
+            vim.lsp.config('clangd', {
                 cmd = is_nixos and { "/home/jost/.nix-profile/bin/clangd" } or { "clangd" },
                 capabilities = capabilities,
                 on_attach = on_attach,
             })
+            vim.lsp.enable('clangd')
 
             -- Lua LSP setup
-            lspconfig.lua_ls.setup({
+            vim.lsp.config('lua_ls', {
                 cmd = is_nixos and { "/home/jost/.nix-profile/bin/lua-language-server" } or { "lua-language-server" },
                 capabilities = capabilities,
                 on_attach = on_attach,
@@ -87,9 +88,10 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('lua_ls')
 
             -- Nil (Nix) LSP setup
-            lspconfig.nil_ls.setup({
+            vim.lsp.config('nil_ls', {
                 cmd = is_nixos and { "/home/jost/.nix-profile/bin/nil" } or { "nil" },
                 capabilities = capabilities,
                 on_attach = on_attach,
@@ -104,9 +106,10 @@ return {
                     },
                 }
             })
+            vim.lsp.enable('nil_ls')
 
             -- Pyright setup with Poetry support
-            lspconfig.pyright.setup({
+            vim.lsp.config('pyright', {
                 capabilities = capabilities,
                 on_attach = on_attach,
                 before_init = function(_, config)
@@ -125,12 +128,14 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('pyright')
 
             -- Ruff setup
-            lspconfig.ruff.setup({
+            vim.lsp.config('ruff', {
                 capabilities = capabilities,
                 on_attach = on_attach,
             })
+            vim.lsp.enable('ruff')
         end
     },
 
