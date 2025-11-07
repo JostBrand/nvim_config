@@ -8,37 +8,36 @@ keyset('v', '<S-Tab>', '<gv', { noremap = true, silent = true })
 
 keyset('t', '<leader><Esc>', "<C-\\><C-n><C-w>h", { silent = true })
 
--- Lsp keybindings
-keyset('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
-keyset('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
-keyset('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
-keyset('n', 'gs', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent = true })
-keyset('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
+-- LSP keybindings are set in lua/plugins/lsp.lua on_attach function
+-- This ensures they're only active when LSP is attached to the buffer
+
 keyset('n', '<leader><leader>x', '<cmd>source %<CR>')
 keyset('n', '<leader>x', ':.lua <CR>')
 keyset('v', '<leader>x', ':lua<CR>')
 
 keyset('n', '<leader>p', ":pu<CR>")
-keyset('n', '<leader>ca', ":lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
-local builtin = require('telescope.builtin')
-keyset('n', '<C-f>', function() builtin.find_files({ hidden = true }) end, {})
+
+-- Telescope keybindings (lazy-loaded)
+keyset('n', '<C-f>', function()
+    require('telescope.builtin').find_files({ hidden = true })
+end, {})
 keyset('n', '<leader>fc', function()
-    builtin.find_files({
+    require('telescope.builtin').find_files({
         hidden = true,
         search_dirs = { "~/.config", "~/.ssh", "~/Dokumente", "~/Downloads", "~/bkp/Sources" }
     })
 end, {})
-keyset('n', '<leader>fg', builtin.live_grep, {})
-keyset('n', '<leader>fb', builtin.buffers, {})
-keyset('n', '<leader>fh', builtin.help_tags, {})
-keyset('n', '<leader>fr', builtin.resume, {})
-keyset('n', '<leader>ft', builtin.treesitter, {})
-keyset('n', '<leader>fs', builtin.grep_string, {})
+keyset('n', '<leader>fg', function() require('telescope.builtin').live_grep() end, {})
+keyset('n', '<leader>fb', function() require('telescope.builtin').buffers() end, {})
+keyset('n', '<leader>fh', function() require('telescope.builtin').help_tags() end, {})
+keyset('n', '<leader>fr', function() require('telescope.builtin').resume() end, {})
+keyset('n', '<leader>ft', function() require('telescope.builtin').treesitter() end, {})
+keyset('n', '<leader>fs', function() require('telescope.builtin').grep_string() end, {})
 
 
-keyset('n', '<leader>gb', builtin.git_branches, {})
-keyset('n', '<leader>gc', builtin.git_commits, {})
-keyset('n', '<leader>gs', builtin.git_status, {})
+keyset('n', '<leader>gb', function() require('telescope.builtin').git_branches() end, {})
+keyset('n', '<leader>gc', function() require('telescope.builtin').git_commits() end, {})
+keyset('n', '<leader>gs', function() require('telescope.builtin').git_status() end, {})
 
 keyset('v', 'J', ":m '>+1<CR>gv=gv") -- shift lines in visual
 keyset('v', 'K', ":m '<-2<CR>gv=gv")
@@ -62,9 +61,8 @@ vim.cmd [[
 
 
 
--- Map this function to a key for convenience, let's say <Leader>p
+-- Map this function to a key for convenience
 keyset('n', '<Leader>br', ':call PythonifyList()<CR>', { noremap = true, silent = true })
-keyset('n', '<leader>fm', ':lua vim.lsp.buf.format()<CR>', { noremap = true, silent = true })
 keyset('n', '<leader>mf', ':lua MiniFiles.open()<CR>', { noremap = true, silent = true })
 
 
