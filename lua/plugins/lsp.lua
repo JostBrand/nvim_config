@@ -10,7 +10,7 @@ return {
         'williamboman/mason-lspconfig.nvim',
         dependencies = { 'williamboman/mason.nvim' },
         config = function()
-            require('mason').setup({})
+            -- Mason will be auto-initialized by mason-lspconfig
             require('mason-lspconfig').setup({
                 automatic_installation = true,
                 ensure_installed = { 'nil_ls', 'lua_ls', 'pyright', "tinymist", 'awk_ls', 'gopls', 'jqls', 'clangd' },
@@ -62,10 +62,22 @@ return {
             -- Custom server configurations
             local distro_name = get_distro_name()
             local is_nixos = distro_name and string.find(string.lower(distro_name), string.lower("nixos"))
+            local home = vim.fn.expand("$HOME")
+
+            -- Helper function to get nix binary path with fallback
+            local function get_cmd(binary_name)
+                if is_nixos then
+                    local nix_path = home .. "/.nix-profile/bin/" .. binary_name
+                    if vim.fn.executable(nix_path) == 1 then
+                        return { nix_path }
+                    end
+                end
+                return { binary_name }
+            end
 
             -- Clangd setup
             vim.lsp.config('clangd', {
-                cmd = is_nixos and { "/home/jost/.nix-profile/bin/clangd" } or { "clangd" },
+                cmd = get_cmd("clangd"),
                 capabilities = capabilities,
                 on_attach = on_attach,
             })
@@ -73,7 +85,7 @@ return {
 
             -- Lua LSP setup
             vim.lsp.config('lua_ls', {
-                cmd = is_nixos and { "/home/jost/.nix-profile/bin/lua-language-server" } or { "lua-language-server" },
+                cmd = get_cmd("lua-language-server"),
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {
@@ -92,7 +104,7 @@ return {
 
             -- Nil (Nix) LSP setup
             vim.lsp.config('nil_ls', {
-                cmd = is_nixos and { "/home/jost/.nix-profile/bin/nil" } or { "nil" },
+                cmd = get_cmd("nil"),
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {
@@ -113,9 +125,12 @@ return {
                 capabilities = capabilities,
                 on_attach = on_attach,
                 before_init = function(_, config)
-                    local poetry_env = vim.fn.trim(vim.fn.system('poetry env info --path'))
-                    if poetry_env ~= '' then
-                        config.settings.python.pythonPath = poetry_env .. '/bin/python'
+                    -- Check if poetry is available and try to get virtual env path
+                    if vim.fn.executable('poetry') == 1 then
+                        local poetry_env = vim.fn.trim(vim.fn.system('poetry env info --path 2>/dev/null'))
+                        if vim.v.shell_error == 0 and poetry_env ~= '' and vim.fn.isdirectory(poetry_env) == 1 then
+                            config.settings.python.pythonPath = poetry_env .. '/bin/python'
+                        end
                     end
                 end,
                 settings = {

@@ -1,5 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
         "clone",
@@ -22,16 +22,20 @@ package.path = package.path ..
     vim.fn.expand("$HOME") ..
     "/.luarocks/share/lua/5.1/?/init.lua;" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 vim.g.mapleader = " "
-function _G.check_back_space()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-end
-
 vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
     spec = {{ import = "plugins" }},
     lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+    checker = {
+        enabled = true,      -- Automatically check for updates
+        notify = false,      -- Don't notify on check (can be annoying)
+        frequency = 3600,    -- Check every hour
+    },
+    change_detection = {
+        enabled = true,
+        notify = false,
+    },
 })
 
 require('settings/remap')   -- personal keymappings
