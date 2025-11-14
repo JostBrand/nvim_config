@@ -12,8 +12,25 @@ return {
     {
         -- see the image.nvim readme for more information about configuring this plugin
         "3rd/image.nvim",
+        -- Only enable if running directly in kitty/ghostty (not through tmux)
+        -- Note: tmux doesn't support image protocols, so this won't work inside tmux
+        enabled = function()
+            local term = vim.env.TERM or ""
+            local term_program = vim.env.TERM_PROGRAM or ""
+            local ghostty_dir = vim.env.GHOSTTY_RESOURCES_DIR or ""
+
+            -- Don't enable if running in tmux (blocks image protocols)
+            if term:match("tmux") or term_program:match("tmux") then
+                return false
+            end
+
+            -- Enable for kitty or ghostty
+            return term:match("kitty") ~= nil
+                or term_program:match("kitty") ~= nil
+                or ghostty_dir ~= ""
+        end,
         opts = {
-            backend = "kitty", -- whatever backend you would like to use
+            backend = "kitty", -- kitty protocol works with both kitty and ghostty
             max_width = 100,
             max_height = 12,
             max_height_window_percentage = math.huge,

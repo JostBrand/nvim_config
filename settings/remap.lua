@@ -75,9 +75,9 @@ keyset('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent
 keyset('n', '<F6>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
 keyset('n', '<F7>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
 keyset('n', '<F8>', ":lua require'dap'.step_out()<CR>", { noremap = true, silent = true })
-keyset('n', '<F13>', require('smart-splits').move_cursor_left)
-keyset('n', '<F14>', require('smart-splits').move_cursor_down)
-keyset('n', '<F15>', require('smart-splits').move_cursor_up)
-keyset('n', '<F16>', require('smart-splits').move_cursor_right)
+keyset('n', '<F13>', function() require('smart-splits').move_cursor_left() end)
+keyset('n', '<F14>', function() require('smart-splits').move_cursor_down() end)
+keyset('n', '<F15>', function() require('smart-splits').move_cursor_up() end)
+keyset('n', '<F16>', function() require('smart-splits').move_cursor_right() end)
 
 
