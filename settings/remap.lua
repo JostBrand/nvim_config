@@ -66,8 +66,33 @@ keyset('n', '<Leader>br', ':call PythonifyList()<CR>', { noremap = true, silent 
 keyset('n', '<leader>mf', ':lua MiniFiles.open()<CR>', { noremap = true, silent = true })
 
 
---- Obsidian keybindings
-keyset('n', '<leader>oo', ':ObsidianQuickSwitch<cr>', { noremap = true, silent = true })
+--- Obsidian keybindings (grouped under <leader>o)
+-- Quick access
+keyset('n', '<leader>oo', ':ObsidianQuickSwitch<CR>', { noremap = true, silent = true, desc = 'Obsidian: Quick switch' })
+keyset('n', '<leader>os', ':ObsidianSearch<CR>', { noremap = true, silent = true, desc = 'Obsidian: Search' })
+keyset('n', '<leader>of', ':ObsidianFollowLink<CR>', { noremap = true, silent = true, desc = 'Obsidian: Follow link' })
+keyset('n', '<leader>ob', ':ObsidianBacklinks<CR>', { noremap = true, silent = true, desc = 'Obsidian: Backlinks' })
+
+-- Note creation
+keyset('n', '<leader>on', ':ObsidianNew<CR>', { noremap = true, silent = true, desc = 'Obsidian: New note' })
+keyset('n', '<leader>ot', ':ObsidianToday<CR>', { noremap = true, silent = true, desc = 'Obsidian: Today note' })
+keyset('n', '<leader>oy', ':ObsidianYesterday<CR>', { noremap = true, silent = true, desc = 'Obsidian: Yesterday note' })
+keyset('n', '<leader>om', ':ObsidianTomorrow<CR>', { noremap = true, silent = true, desc = 'Obsidian: Tomorrow note' })
+
+-- Links and references
+keyset('n', '<leader>ol', ':ObsidianLink<CR>', { noremap = true, silent = true, desc = 'Obsidian: Link selection' })
+keyset('n', '<leader>oL', ':ObsidianLinkNew<CR>', { noremap = true, silent = true, desc = 'Obsidian: Link to new note' })
+keyset('v', '<leader>ol', ':ObsidianLink<CR>', { noremap = true, silent = true, desc = 'Obsidian: Link selection' })
+keyset('v', '<leader>oL', ':ObsidianLinkNew<CR>', { noremap = true, silent = true, desc = 'Obsidian: Link to new note' })
+
+-- Templates and tags
+keyset('n', '<leader>oT', ':ObsidianTemplate<CR>', { noremap = true, silent = true, desc = 'Obsidian: Insert template' })
+keyset('n', '<leader>og', ':ObsidianTags<CR>', { noremap = true, silent = true, desc = 'Obsidian: Tags picker' })
+
+-- Utility
+keyset('n', '<leader>or', ':ObsidianRename<CR>', { noremap = true, silent = true, desc = 'Obsidian: Rename note' })
+keyset('n', '<leader>ow', ':ObsidianWorkspace<CR>', { noremap = true, silent = true, desc = 'Obsidian: Switch workspace' })
+keyset('n', '<leader>oc', ':ObsidianToggleCheckbox<CR>', { noremap = true, silent = true, desc = 'Obsidian: Toggle checkbox' })
 
 
 keyset('n', '<C-b>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
