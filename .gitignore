@@ -3,4 +3,6 @@ test.py
 *.tmp
 *.vim
 *.pyc
+*.md
+.claude
 
