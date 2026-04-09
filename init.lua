@@ -11,22 +11,13 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 local config_path = vim.fn.stdpath('config')
-package.path = package.path ..
-    ";" ..
-    config_path ..
-    "/?.lua;" ..
-    config_path ..
-    "/?/init.lua;" ..
-    config_path ..
-    "/plugins/?.lua;" ..
-    vim.fn.expand("$HOME") ..
-    "/.luarocks/share/lua/5.1/?/init.lua;" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
+package.path = package.path .. ';' .. config_path .. '/?.lua;' .. config_path .. '/?/init.lua'
 vim.g.mapleader = " "
 vim.g.suda_smart_edit = 1
 
 require("lazy").setup({
     spec = {{ import = "plugins" }},
-    lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+    lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json",
     checker = {
         enabled = true,      -- Automatically check for updates
         notify = false,      -- Don't notify on check (can be annoying)

@@ -18,10 +18,7 @@ return {
             },
         },
     },
-    config = function()
-        local zenmode = require("zen-mode")
-
-        -- Keymap for Zen Mode toggle
-        vim.keymap.set('n', '<leader>zm', "<cmd>ZenMode<cr>", { silent = true })
-    end,
+    keys = {
+        { '<leader>zm', '<cmd>ZenMode<cr>', silent = true, desc = 'Toggle Zen Mode' },
+    },
 }

@@ -17,28 +17,6 @@ keyset('v', '<leader>x', ':lua<CR>')
 
 keyset('n', '<leader>p', ":pu<CR>")
 
--- Telescope keybindings (lazy-loaded)
-keyset('n', '<C-f>', function()
-    require('telescope.builtin').find_files({ hidden = true })
-end, {})
-keyset('n', '<leader>fc', function()
-    require('telescope.builtin').find_files({
-        hidden = true,
-        search_dirs = { "~/.config", "~/.ssh", "~/Dokumente", "~/Downloads", "~/bkp/Sources" }
-    })
-end, {})
-keyset('n', '<leader>fg', function() require('telescope.builtin').live_grep() end, {})
-keyset('n', '<leader>fb', function() require('telescope.builtin').buffers() end, {})
-keyset('n', '<leader>fh', function() require('telescope.builtin').help_tags() end, {})
-keyset('n', '<leader>fr', function() require('telescope.builtin').resume() end, {})
-keyset('n', '<leader>ft', function() require('telescope.builtin').treesitter() end, {})
-keyset('n', '<leader>fs', function() require('telescope.builtin').grep_string() end, {})
-
-
-keyset('n', '<leader>gb', function() require('telescope.builtin').git_branches() end, {})
-keyset('n', '<leader>gc', function() require('telescope.builtin').git_commits() end, {})
-keyset('n', '<leader>gs', function() require('telescope.builtin').git_status() end, {})
-
 keyset('v', 'J', ":m '>+1<CR>gv=gv") -- shift lines in visual
 keyset('v', 'K', ":m '<-2<CR>gv=gv")
 keyset('n', '<C-d>', "<C-d>zz")      -- keep jumps centered
@@ -104,5 +82,4 @@ keyset('n', '<F13>', function() require('smart-splits').move_cursor_left() end)
 keyset('n', '<F14>', function() require('smart-splits').move_cursor_down() end)
 keyset('n', '<F15>', function() require('smart-splits').move_cursor_up() end)
 keyset('n', '<F16>', function() require('smart-splits').move_cursor_right() end)
-
 

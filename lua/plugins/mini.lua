@@ -2,12 +2,6 @@ return {
     {
         'echasnovski/mini.nvim',
         version = false,
-        dependencies = {
-            { 'echasnovski/mini.ai',       version = false },
-            { 'echasnovski/mini.surround', version = false },
-            { 'echasnovski/mini.files',    version = false },
-            { 'echasnovski/mini.clue',     version = false },
-        },
         config = function()
             require("mini.ai").setup()
             require("mini.files").setup()

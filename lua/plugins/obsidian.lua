@@ -19,7 +19,24 @@ end
 return {
   "epwalsh/obsidian.nvim",
   version = "*",  -- recommended, use latest release instead of latest commit
-  lazy = false,
+  ft = "markdown",
+  cmd = {
+    "ObsidianBacklinks",
+    "ObsidianFollowLink",
+    "ObsidianLink",
+    "ObsidianLinkNew",
+    "ObsidianNew",
+    "ObsidianQuickSwitch",
+    "ObsidianRename",
+    "ObsidianSearch",
+    "ObsidianTags",
+    "ObsidianTemplate",
+    "ObsidianToday",
+    "ObsidianToggleCheckbox",
+    "ObsidianTomorrow",
+    "ObsidianWorkspace",
+    "ObsidianYesterday",
+  },
   cond = function()
     return workspace_path and workspace_path ~= "" and system.path_exists(workspace_path)
   end,
