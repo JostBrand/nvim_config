@@ -1,9 +1,9 @@
 return {
     "chrisgrieser/nvim-chainsaw",
-    config = function()
-        require("chainsaw").setup {
+    cmd = 'Chainsaw',
+    event = 'VeryLazy',
+    opts = {
             marker = "🪚",
             beepEmojis = { "🔵", "🟩", "⭐", "⭕", "💜", "🔲" },
-        }
-    end
+    },
 }

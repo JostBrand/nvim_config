@@ -10,8 +10,6 @@ if not vim.uv.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
-local config_path = vim.fn.stdpath('config')
-package.path = package.path .. ';' .. config_path .. '/?.lua;' .. config_path .. '/?/init.lua'
 vim.g.mapleader = " "
 vim.g.suda_smart_edit = 1
 

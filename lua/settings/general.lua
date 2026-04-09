@@ -11,7 +11,6 @@ local function apply_highlights()
     vim.api.nvim_set_hl(0, 'CmpItemKindProperty', { link = 'CmpItemKindKeyword' })
     vim.api.nvim_set_hl(0, 'CmpItemKindUnit', { link = 'CmpItemKindKeyword' })
 
-    -- Keep semantic token colors aligned with Treesitter captures instead of server defaults.
     vim.api.nvim_set_hl(0, '@lsp.type.boolean', { link = '@boolean' })
     vim.api.nvim_set_hl(0, '@lsp.type.comment', { link = '@comment' })
     vim.api.nvim_set_hl(0, '@lsp.type.enum', { link = '@type' })
@@ -32,7 +31,6 @@ local function apply_highlights()
     vim.api.nvim_set_hl(0, '@lsp.type.typeParameter', { link = '@type.definition' })
     vim.api.nvim_set_hl(0, '@lsp.type.variable', { link = '@variable' })
 
-    -- Make markdown rendering groups sit closer to rose-pine's palette.
     vim.api.nvim_set_hl(0, 'RenderMarkdownCode', { bg = '#1f1d2e' })
     vim.api.nvim_set_hl(0, 'RenderMarkdownCodeInline', { bg = '#26233a', fg = '#e0def4' })
     vim.api.nvim_set_hl(0, 'RenderMarkdownBullet', { fg = '#c4a7e7' })
@@ -57,7 +55,6 @@ local function apply_highlights()
     vim.api.nvim_set_hl(0, 'RainbowDelimiterIris', { fg = '#c4a7e7', bold = true })
     vim.api.nvim_set_hl(0, 'RainbowDelimiterLove', { fg = '#eb6f92', bold = true })
     vim.api.nvim_set_hl(0, 'RainbowDelimiterMuted', { fg = '#908caa', bold = true })
-
 end
 
 local highlight_group = vim.api.nvim_create_augroup('UserHighlights', { clear = true })
@@ -66,7 +63,6 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     callback = apply_highlights,
 })
 
--- General options
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4
@@ -79,37 +75,34 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+vim.opt.signcolumn = 'yes'
+vim.opt.isfname:append('@-@')
 vim.opt.updatetime = 50
-vim.opt.colorcolumn = "120"
+vim.opt.colorcolumn = '120'
 vim.opt.smartcase = true
 vim.opt.conceallevel = 2
 
--- Indentation markers in list mode.
 vim.opt.list = true
-vim.opt.listchars = { 
-    tab = '▏ ', 
+vim.opt.listchars = {
+    tab = '▏ ',
     leadmultispace = '▏   ',
     trail = '·',
-    nbsp = '⍽'
-} 
+    nbsp = '⍽',
+}
 
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = 'unnamedplus'
 
 apply_highlights()
 
-local augroup = vim.api.nvim_create_augroup("PythonFormat", { clear = true })
+local augroup = vim.api.nvim_create_augroup('PythonFormat', { clear = true })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup,
-  pattern = "*",
-  callback = function()
-    vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
-  end,
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = augroup,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 })
+    end,
 })
-
--- Python formatting now handled by conform.nvim
 
 function _G.ReloadConfig()
     for name, _ in pairs(package.loaded) do
@@ -118,7 +111,7 @@ function _G.ReloadConfig()
         end
     end
     dofile(vim.env.MYVIMRC)
-    vim.notify("Nvim configuration reloaded!", vim.log.levels.INFO)
+    vim.notify('Nvim configuration reloaded!', vim.log.levels.INFO)
 end
 
 local opts = { noremap = true, silent = false }
