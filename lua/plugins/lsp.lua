@@ -10,10 +10,28 @@ return {
         'williamboman/mason-lspconfig.nvim',
         dependencies = { 'williamboman/mason.nvim' },
         config = function()
+            local distro_name = nil
+            local file = io.open("/etc/os-release", "r")
+            if file then
+                for line in file:lines() do
+                    if line:match("^NAME=") then
+                        distro_name = line:gsub('NAME=', ''):gsub('"', '')
+                        break
+                    end
+                end
+                file:close()
+            end
+
+            local is_nixos = distro_name and string.find(string.lower(distro_name), "nixos")
+            local ensure = { 'lua_ls', 'pyright', 'tinymist', 'awk_ls', 'gopls', 'jqls', 'clangd' }
+            if is_nixos or vim.fn.executable('nil') == 1 or vim.fn.executable('nil_ls') == 1 then
+                table.insert(ensure, 'nil_ls')
+            end
+
             -- Mason will be auto-initialized by mason-lspconfig
             require('mason-lspconfig').setup({
                 automatic_installation = true,
-                ensure_installed = { 'nil_ls', 'lua_ls', 'pyright', "tinymist", 'awk_ls', 'gopls', 'jqls', 'clangd' },
+                ensure_installed = ensure,
             })
         end
     },
@@ -22,6 +40,7 @@ return {
         'neovim/nvim-lspconfig',
         dependencies = { 'williamboman/mason-lspconfig.nvim' },
         config = function()
+            local system = require("utils.system")
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             local function get_distro_name()
                 local file = io.open("/etc/os-release", "r")
@@ -66,6 +85,10 @@ return {
 
             -- Helper function to get nix binary path with fallback
             local function get_cmd(binary_name)
+                local mason_binary = system.mason_bin(binary_name)
+                if mason_binary then
+                    return { mason_binary }
+                end
                 if is_nixos then
                     local nix_path = home .. "/.nix-profile/bin/" .. binary_name
                     if vim.fn.executable(nix_path) == 1 then
@@ -103,22 +126,31 @@ return {
             vim.lsp.enable('lua_ls')
 
             -- Nil (Nix) LSP setup
-            vim.lsp.config('nil_ls', {
-                cmd = get_cmd("nil"),
-                capabilities = capabilities,
-                on_attach = on_attach,
-                settings = {
-                    ["nil"] = {
-                        formatting = {
-                            command = { "nixfmt" },
+            local nil_cmd = nil
+            if vim.fn.executable("nil") == 1 or system.mason_bin("nil") then
+                nil_cmd = get_cmd("nil")
+            elseif vim.fn.executable("nil_ls") == 1 or system.mason_bin("nil_ls") then
+                nil_cmd = get_cmd("nil_ls")
+            end
+
+            if nil_cmd then
+                vim.lsp.config('nil_ls', {
+                    cmd = nil_cmd,
+                    capabilities = capabilities,
+                    on_attach = on_attach,
+                    settings = {
+                        ["nil"] = {
+                            formatting = {
+                                command = { "nixfmt" },
+                            },
+                            diagnostics = {
+                                command = { "nixpkgs-lint", "--stdin" },
+                            },
                         },
-                        diagnostics = {
-                            command = { "nixpkgs-lint", "--stdin" },
-                        },
-                    },
-                }
-            })
-            vim.lsp.enable('nil_ls')
+                    }
+                })
+                vim.lsp.enable('nil_ls')
+            end
 
             -- Pyright setup with Poetry support
             vim.lsp.config('pyright', {
@@ -259,4 +291,3 @@ return {
         end
     },
 }
-

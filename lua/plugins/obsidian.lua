@@ -1,22 +1,27 @@
--- Get hostname to conditionally load plugin
-local function get_hostname()
-  local handle = io.popen("hostname")
-  if handle then
-    local result = handle:read("*a")
-    handle:close()
-    return result:gsub("%s+", "") -- Remove whitespace
-  end
-  return ""
-end
+local system = require("utils.system")
 
-local hostname = get_hostname()
+local workspace_path = vim.env.OBSIDIAN_VAULT
+if not workspace_path or workspace_path == "" then
+  local candidates = {
+    "/bkp/obsidian_notes/",
+    vim.fn.expand("~/bkp/obsidian_notes"),
+    vim.fn.expand("~/obsidian_notes"),
+  }
+
+  for _, candidate in ipairs(candidates) do
+    if system.path_exists(candidate) then
+      workspace_path = candidate
+      break
+    end
+  end
+end
 
 return {
   "epwalsh/obsidian.nvim",
   version = "*",  -- recommended, use latest release instead of latest commit
   lazy = false,
   cond = function()
-    return hostname == "desktopmeme"
+    return workspace_path and workspace_path ~= "" and system.path_exists(workspace_path)
   end,
   -- ft = "markdown",
   dependencies = {
@@ -29,7 +34,7 @@ return {
     workspaces = {
       {
         name = "obsidian_notes",
-        path = "/bkp/obsidian_notes/",
+        path = workspace_path,
       },
     },
 
@@ -76,7 +81,12 @@ return {
 
     -- Follow URL behavior
     follow_url_func = function(url)
-      vim.fn.jobstart({ "xdg-open", url })  -- Linux
+      local open_cmd = system.open_command()
+      if open_cmd then
+        vim.fn.jobstart({ open_cmd, url })
+      else
+        vim.notify("No URL opener found in PATH", vim.log.levels.WARN)
+      end
     end,
 
     -- Picker settings (use telescope)
@@ -146,4 +156,3 @@ return {
     },
   },
 }
-
