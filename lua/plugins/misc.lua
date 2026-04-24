@@ -8,3 +8,4 @@ return {
     { 'rose-pine/neovim', name = 'rose-pine' },
     "preservim/tagbar"
 }
+

@@ -44,7 +44,11 @@ vim.opt.listchars = {
     nbsp = '⍽'
 } 
 
-vim.opt.clipboard = "unnamedplus"
+local system = require("utils.system")
+
+if system.has_clipboard_provider() then
+    vim.opt.clipboard = "unnamedplus"
+end
 
 local augroup = vim.api.nvim_create_augroup("PythonFormat", { clear = true })
 
