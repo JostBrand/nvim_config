@@ -34,6 +34,7 @@ vim.opt.colorcolumn = "120"
 vim.opt.smartcase = true
 vim.opt.conceallevel = 2
 vim.opt.autochdir = true
+vim.opt.exrc = true
 
 -- Native indentation guides (replaces indent-blankline.nvim)
 vim.opt.list = true

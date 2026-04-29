@@ -1,6 +1,7 @@
 return {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("todo-comments").setup({
         signs = true,           -- show icons in the signs column
@@ -36,7 +37,7 @@ return {
           before = "",
           keyword = "wide",          -- "fg", "bg", "wide", "wide_bg", "wide_fg", or ""
           after = "fg",
-          comments_only = true,
+          comments_only = false,
           max_line_len = 400,
           exclude = {},
         },
