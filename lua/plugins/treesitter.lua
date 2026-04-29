@@ -7,13 +7,19 @@ return {
             local languages = {
                 'bash',
                 'c',
+                'diff',
+                'dockerfile',
+                'gitcommit',
+                'gitignore',
                 'go',
                 'json',
                 'lua',
                 'markdown',
                 'markdown_inline',
+                'nix',
                 'python',
                 'query',
+                'regex',
                 'toml',
                 'typst',
                 'vim',
@@ -22,18 +28,21 @@ return {
             }
 
             local treesitter = require('nvim-treesitter')
+            local configs = require('nvim-treesitter.configs')
 
             treesitter.setup({
                 install_dir = vim.fn.stdpath('data') .. '/site',
             })
-
-            local group = vim.api.nvim_create_augroup('TreesitterHighlighting', { clear = true })
-            vim.api.nvim_create_autocmd('FileType', {
-                group = group,
-                pattern = languages,
-                callback = function(args)
-                    pcall(vim.treesitter.start, args.buf)
-                end,
+            configs.setup({
+                auto_install = false,
+                parser_install_dir = vim.fn.stdpath('data') .. '/site',
+                highlight = {
+                    enable = true,
+                    additional_vim_regex_highlighting = false,
+                },
+                indent = {
+                    enable = true,
+                },
             })
 
             vim.api.nvim_create_user_command('TSInstallMyParsers', function()
@@ -55,41 +64,87 @@ return {
             'nvim-treesitter/nvim-treesitter',
         },
         config = function()
-            require('nvim-treesitter-textobjects').setup({
-                select = {
-                    lookahead = true,
-                },
-                move = {
-                    set_jumps = true,
+            require('nvim-treesitter.configs').setup({
+                textobjects = {
+                    select = {
+                        enable = true,
+                        lookahead = true,
+                        keymaps = {
+                            ['aa'] = '@parameter.outer',
+                            ['ia'] = '@parameter.inner',
+                            ['af'] = '@function.outer',
+                            ['if'] = '@function.inner',
+                            ['ac'] = '@class.outer',
+                            ['ic'] = '@class.inner',
+                            ['ii'] = '@conditional.inner',
+                            ['ai'] = '@conditional.outer',
+                            ['il'] = '@loop.inner',
+                            ['al'] = '@loop.outer',
+                            ['at'] = '@comment.outer',
+                        },
+                    },
+                    move = {
+                        enable = true,
+                        set_jumps = true,
+                        goto_next_start = {
+                            [']m'] = '@function.outer',
+                            [']]'] = '@class.outer',
+                        },
+                        goto_next_end = {
+                            [']M'] = '@function.outer',
+                            [']['] = '@class.outer',
+                        },
+                        goto_previous_start = {
+                            ['[m'] = '@function.outer',
+                            ['[['] = '@class.outer',
+                        },
+                        goto_previous_end = {
+                            ['[M'] = '@function.outer',
+                            ['[]'] = '@class.outer',
+                        },
+                    },
+                    swap = {
+                        enable = true,
+                        swap_next = {
+                            ['<leader>a'] = '@parameter.inner',
+                        },
+                        swap_previous = {
+                            ['<leader>A'] = '@parameter.inner',
+                        },
+                    },
                 },
             })
-
-            local select = require('nvim-treesitter-textobjects.select')
-            vim.keymap.set({ 'o', 'x' }, 'aa', function() select.select_textobject('@parameter.outer', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'ia', function() select.select_textobject('@parameter.inner', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'af', function() select.select_textobject('@function.outer', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'if', function() select.select_textobject('@function.inner', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'ac', function() select.select_textobject('@class.outer', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'ic', function() select.select_textobject('@class.inner', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'ii', function() select.select_textobject('@conditional.inner', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'ai', function() select.select_textobject('@conditional.outer', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'il', function() select.select_textobject('@loop.inner', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'al', function() select.select_textobject('@loop.outer', 'textobjects') end)
-            vim.keymap.set({ 'o', 'x' }, 'at', function() select.select_textobject('@comment.outer', 'textobjects') end)
-
-            local move = require('nvim-treesitter-textobjects.move')
-            vim.keymap.set({ 'n', 'o', 'x' }, ']m', function() move.goto_next_start('@function.outer', 'textobjects') end)
-            vim.keymap.set({ 'n', 'o', 'x' }, ']]', function() move.goto_next_start('@class.outer', 'textobjects') end)
-            vim.keymap.set({ 'n', 'o', 'x' }, ']M', function() move.goto_next_end('@function.outer', 'textobjects') end)
-            vim.keymap.set({ 'n', 'o', 'x' }, '][', function() move.goto_next_end('@class.outer', 'textobjects') end)
-            vim.keymap.set({ 'n', 'o', 'x' }, '[m', function() move.goto_previous_start('@function.outer', 'textobjects') end)
-            vim.keymap.set({ 'n', 'o', 'x' }, '[[', function() move.goto_previous_start('@class.outer', 'textobjects') end)
-            vim.keymap.set({ 'n', 'o', 'x' }, '[M', function() move.goto_previous_end('@function.outer', 'textobjects') end)
-            vim.keymap.set({ 'n', 'o', 'x' }, '[]', function() move.goto_previous_end('@class.outer', 'textobjects') end)
-
-            local swap = require('nvim-treesitter-textobjects.swap')
-            vim.keymap.set('n', '<leader>a', function() swap.swap_next('@parameter.inner') end)
-            vim.keymap.set('n', '<leader>A', function() swap.swap_previous('@parameter.inner') end)
+        end,
+    },
+    {
+        'HiPhish/rainbow-delimiters.nvim',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+        },
+        config = function()
+            require('rainbow-delimiters.setup').setup({
+                strategy = {
+                    [''] = 'rainbow-delimiters.strategy.global',
+                    vim = 'rainbow-delimiters.strategy.local',
+                },
+                query = {
+                    [''] = 'rainbow-delimiters',
+                    lua = 'rainbow-blocks',
+                },
+                priority = {
+                    [''] = 110,
+                    lua = 210,
+                },
+                highlight = {
+                    'RainbowDelimiterRose',
+                    'RainbowDelimiterFoam',
+                    'RainbowDelimiterGold',
+                    'RainbowDelimiterPine',
+                    'RainbowDelimiterIris',
+                    'RainbowDelimiterLove',
+                    'RainbowDelimiterMuted',
+                },
+            })
         end,
     },
 }

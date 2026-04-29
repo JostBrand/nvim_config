@@ -1,8 +1,14 @@
-return{
-'https://codeberg.org/esensar/nvim-dev-container',
-  config = function()
-    require'devcontainer'.setup {}
-  end
-
-
+return {
+    'https://codeberg.org/esensar/nvim-dev-container',
+    cmd = {
+        'DevcontainerStart',
+        'DevcontainerAttach',
+        'DevcontainerExec',
+        'DevcontainerStop',
+        'DevcontainerStopAll',
+        'DevcontainerRemoveAll',
+        'DevcontainerLogs',
+        'DevcontainerEditNearestConfig',
+    },
+    opts = {},
 }

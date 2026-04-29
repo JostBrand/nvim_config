@@ -1,5 +1,27 @@
 return {
     'nvim-telescope/telescope.nvim',
+    cmd = 'Telescope',
+    keys = {
+        { '<C-f>', function() require('telescope.builtin').find_files({ hidden = true }) end },
+        {
+            '<leader>fc',
+            function()
+                require('telescope.builtin').find_files({
+                    hidden = true,
+                    search_dirs = { '~/.config', '~/.ssh', '~/Dokumente', '~/Downloads', '~/bkp/Sources' }
+                })
+            end,
+        },
+        { '<leader>fg', function() require('telescope.builtin').live_grep() end },
+        { '<leader>fb', function() require('telescope.builtin').buffers() end },
+        { '<leader>fh', function() require('telescope.builtin').help_tags() end },
+        { '<leader>fr', function() require('telescope.builtin').resume() end },
+        { '<leader>ft', function() require('telescope.builtin').treesitter() end },
+        { '<leader>fs', function() require('telescope.builtin').grep_string() end },
+        { '<leader>gb', function() require('telescope.builtin').git_branches() end },
+        { '<leader>gc', function() require('telescope.builtin').git_commits() end },
+        { '<leader>gs', function() require('telescope.builtin').git_status() end },
+    },
     dependencies = { 'nvim-lua/plenary.nvim', 'BurntSushi/ripgrep', 'nvim-telescope/telescope-ui-select.nvim', 'kkharji/sqlite.lua' },
     config = function()
         local ts = require("telescope")

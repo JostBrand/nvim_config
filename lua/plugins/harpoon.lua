@@ -1,8 +1,8 @@
 return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    requires = { {"nvim-lua/plenary.nvim"} }
-    ,config = function ()
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
         local harpoon = require('harpoon')
 
         local conf = require("telescope.config").values
@@ -23,14 +23,13 @@ return {
         end
 
         harpoon:setup({})
-        vim.keymap.set("n", "<leader>hl", function() toggle_telescope(harpoon:list()) end,{ desc = "Open harpoon window" })
+        vim.keymap.set("n", "<leader>hl", function() toggle_telescope(harpoon:list()) end, { desc = "Open harpoon window" })
 
-        vim.keymap.set("n", "<leader>ha", function() require("harpoon"):list():add() end, {desc= "Add item to harpoon"})
+        vim.keymap.set("n", "<leader>ha", function() require("harpoon"):list():add() end, { desc = "Add item to harpoon" })
 
-        vim.keymap.set("n", "<leader>n", function() require("harpoon"):list():select(1) end, {desc="Go to Harpoon 1"})
-        vim.keymap.set("n", "<leader>e", function() require("harpoon"):list():select(2) end, {desc="Go to Harpoon 2"})
-        vim.keymap.set("n", "<leader>i", function() require("harpoon"):list():select(3) end, {desc="Go to Harpoon 3"})
+        vim.keymap.set("n", "<leader>n", function() require("harpoon"):list():select(1) end, { desc = "Go to Harpoon 1" })
+        vim.keymap.set("n", "<leader>e", function() require("harpoon"):list():select(2) end, { desc = "Go to Harpoon 2" })
+        vim.keymap.set("n", "<leader>i", function() require("harpoon"):list():select(3) end, { desc = "Go to Harpoon 3" })
 
     end,
 }
-

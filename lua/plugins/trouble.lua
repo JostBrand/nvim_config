@@ -18,30 +18,20 @@ return {
       return false
     end
 
-    -- Helper: prefer loclist if current window has one, else quickfix
-    local function jump_list(cmd_qf, cmd_loc)
-      -- If current window has a location list with items, use it; else quickfix
+    local function jump_list(loc_cmd, qf_cmd)
       local loc = vim.fn.getloclist(0, { size = 0 })
-      local use_loc = loc and loc.size and loc.size > 0
-      if use_loc then
-        vim.cmd(cmd_loc)
+      if loc and loc.size and loc.size > 0 then
+        vim.cmd('silent! ' .. loc_cmd)
       else
-        vim.cmd(cmd_qf)
+        vim.cmd('silent! ' .. qf_cmd)
       end
     end
 
-    -- Next/Prev result: Trouble if open (with jump), else loclist/qf jump
     local function jump_next()
       if is_win_visible_with_ft("trouble") then
-        -- Jump to next actual item in the active Trouble view
         trouble.next({ skip_groups = true, jump = true })
       else
-        -- Wrap and be quiet; prefer loclist if present
-        jump_list("silent! lnext!", "silent! lnext!")
-        -- Fallback to quickfix if no loclist items
-        if (vim.v.shell_error or 0) ~= 0 then
-          vim.cmd("silent! cnext!")
-        end
+        jump_list('lnext', 'cnext')
       end
     end
 
@@ -49,10 +39,7 @@ return {
       if is_win_visible_with_ft("trouble") then
         trouble.prev({ skip_groups = true, jump = true })
       else
-        jump_list("silent! lprevious!", "silent! lprevious!")
-        if (vim.v.shell_error or 0) ~= 0 then
-          vim.cmd("silent! cprevious!")
-        end
+        jump_list('lprevious', 'cprevious')
       end
     end
 

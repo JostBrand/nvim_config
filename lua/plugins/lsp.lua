@@ -10,19 +10,8 @@ return {
         'williamboman/mason-lspconfig.nvim',
         dependencies = { 'williamboman/mason.nvim' },
         config = function()
-            local distro_name = nil
-            local file = io.open("/etc/os-release", "r")
-            if file then
-                for line in file:lines() do
-                    if line:match("^NAME=") then
-                        distro_name = line:gsub('NAME=', ''):gsub('"', '')
-                        break
-                    end
-                end
-                file:close()
-            end
-
-            local is_nixos = distro_name and string.find(string.lower(distro_name), "nixos")
+            local system = require("utils.system")
+            local is_nixos = system.is_nixos()
             local ensure = { 'lua_ls', 'pyright', 'tinymist', 'awk_ls', 'gopls', 'jqls', 'clangd' }
             if is_nixos or vim.fn.executable('nil') == 1 or vim.fn.executable('nil_ls') == 1 then
                 table.insert(ensure, 'nil_ls')
@@ -42,20 +31,6 @@ return {
         config = function()
             local system = require("utils.system")
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            local function get_distro_name()
-                local file = io.open("/etc/os-release", "r")
-                if not file then return nil end
-
-                for line in file:lines() do
-                    if line:match("^NAME=") then
-                        file:close()
-                        return line:gsub('NAME=', ''):gsub('"', '')
-                    end
-                end
-
-                file:close()
-                return nil
-            end
 
             local function on_attach(client, bufnr)
                 local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -79,8 +54,7 @@ return {
             end
 
             -- Custom server configurations
-            local distro_name = get_distro_name()
-            local is_nixos = distro_name and string.find(string.lower(distro_name), string.lower("nixos"))
+            local is_nixos = system.is_nixos()
             local home = vim.fn.expand("$HOME")
 
             -- Helper function to get nix binary path with fallback

@@ -64,4 +64,26 @@ function M.mason_bin(binary)
     return nil
 end
 
+function M.distro_name()
+    local file = io.open("/etc/os-release", "r")
+    if not file then
+        return nil
+    end
+
+    for line in file:lines() do
+        if line:match("^NAME=") then
+            file:close()
+            return line:gsub('NAME=', ''):gsub('"', '')
+        end
+    end
+
+    file:close()
+    return nil
+end
+
+function M.is_nixos()
+    local distro_name = M.distro_name()
+    return distro_name and string.find(string.lower(distro_name), "nixos") ~= nil
+end
+
 return M
