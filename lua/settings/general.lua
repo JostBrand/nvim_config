@@ -90,7 +90,13 @@ vim.opt.listchars = {
     nbsp = '⍽',
 }
 
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.autochdir = true
+vim.opt.exrc = true
+
+local system = require('utils.system')
+if system.has_clipboard_provider() then
+    vim.opt.clipboard = 'unnamedplus'
+end
 
 apply_highlights()
 

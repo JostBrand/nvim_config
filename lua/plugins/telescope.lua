@@ -27,6 +27,16 @@ return {
         local ts = require("telescope")
         ts.setup {
             defaults = {
+                mappings = {
+                    i = {
+                        ["<A-j>"] = require('telescope.actions').preview_scrolling_down,
+                        ["<A-k>"] = require('telescope.actions').preview_scrolling_up,
+                    },
+                    n = {
+                        ["<A-j>"] = require('telescope.actions').preview_scrolling_down,
+                        ["<A-k>"] = require('telescope.actions').preview_scrolling_up,
+                    },
+                },
                 file_ignore_patterns = {
                     "%.git.*", -- Matches any file or directory starting with .git
                     ".*%.pdf", -- Matches any file with .pdf extension
